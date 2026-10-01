@@ -215,7 +215,7 @@ export default function DashboardPage() {
     return (
       <div className="flex flex-col items-center justify-center h-full gap-3">
         <Loader2 className="w-7 h-7 animate-spin text-primary" />
-        <p className="text-xs text-muted-foreground font-medium">Loading engineering copilot...</p>
+        <p className="text-xs text-muted-foreground font-medium">Loading Shomvob...</p>
       </div>
     )
   }
@@ -454,7 +454,7 @@ export default function DashboardPage() {
                     className="block rounded-lg border border-border/50 bg-background/50 hover:bg-white/[0.03] hover:border-white/25 transition-all p-2.5 group cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
-                      <CompanyLogo company={cleanCompany} size="sm" />
+                      <CompanyLogo company={cleanCompany} source={j.source} size="sm" />
 
                       <div className="min-w-0 flex-1">
                         <div className="flex items-baseline justify-between gap-2">

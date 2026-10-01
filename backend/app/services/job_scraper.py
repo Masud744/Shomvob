@@ -151,22 +151,28 @@ LINKEDIN_SEARCHES = [
 ]
 
 
+def extract_linkedin_job_id(url: str) -> str | None:
+    match = re.search(r'-(\d+)(?:\?|$)', url) or re.search(r'/(\d+)(?:\?|$)', url)
+    return match.group(1) if match else None
+
+
 async def fetch_linkedin_job_description(client: httpx.AsyncClient, url: str) -> str:
-    """Fetch full job description from LinkedIn job detail page."""
+    """Fetch full genuine job description from LinkedIn guest API."""
+    job_id = extract_linkedin_job_id(url)
+    if not job_id:
+        return ""
+    api_url = f"https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/{job_id}"
     try:
         detail_headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
             "Accept-Language": "en-US,en;q=0.9",
         }
-        resp = await client.get(url, headers=detail_headers, timeout=10)
-        if resp.status_code != 200:
-            return ""
-        soup = BeautifulSoup(resp.text, "html.parser")
-        desc_el = soup.find("div", class_="description__text")
-        if not desc_el:
-            desc_el = soup.find("div", class_="show-more-less-html__markup")
-        if desc_el:
-            return desc_el.get_text(separator="\n", strip=True)
+        resp = await client.get(api_url, headers=detail_headers, timeout=10)
+        if resp.status_code == 200:
+            soup = BeautifulSoup(resp.text, "html.parser")
+            desc_el = soup.find("div", class_="show-more-less-html__markup") or soup.find("div", class_="description__text")
+            if desc_el:
+                return desc_el.get_text(separator="\n", strip=True)
     except Exception:
         pass
     return ""
@@ -243,16 +249,14 @@ async def fetch_linkedin_jobs() -> list[dict]:
                             if not should_keep_job(title, location, is_remote):
                                 continue
 
-                            description = (
-                                f"Role: {title}\n"
-                                f"Company: {company}\n"
-                                f"Location: {location or 'Remote'}\n"
-                                f"Source: LinkedIn\n\n"
-                                f"This is a {search['keywords']} role at {company}. "
-                                f"Candidates should have relevant experience in {search['keywords']} and related technologies."
-                            )
+                            # Fetch genuine description from LinkedIn detail API
+                            real_desc = await fetch_linkedin_job_description(client, apply_url)
+                            if real_desc and len(real_desc) > 80:
+                                description = real_desc
+                            else:
+                                description = f"{title} at {company}. Location: {location or 'Remote'}. View original posting on LinkedIn."
 
-                            # Extract authentic technical skills from title and description
+                            # Extract authentic technical skills from real title and description
                             required_skills = extract_skills_from_text(f"{title} {description}")
 
                             jobs.append({

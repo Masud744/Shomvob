@@ -7,6 +7,8 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  className?: string;
+  showLabels?: boolean;
 }
 
 /**
@@ -42,55 +44,65 @@ function getPageRange(current: number, total: number): (number | '...')[] {
   return pages;
 }
 
-export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+export function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+  className = '',
+  showLabels = false,
+}: PaginationProps) {
   if (totalPages <= 1) return null;
 
   const pages = getPageRange(currentPage, totalPages);
 
   return (
-    <nav className="flex items-center justify-center gap-1 pt-6 pb-2" aria-label="Pagination">
+    <nav className={cn('flex items-center justify-center gap-1.5', className)} aria-label="Pagination">
       {/* Previous */}
       <button
         type="button"
         onClick={() => onPageChange(Math.max(currentPage - 1, 1))}
         disabled={currentPage === 1}
         className={cn(
-          'inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border/60 transition-colors',
+          'inline-flex h-8 items-center justify-center rounded-lg border border-border/70 text-xs font-medium transition-colors px-2.5 gap-1',
           currentPage === 1
-            ? 'text-muted-foreground/40 cursor-not-allowed'
-            : 'text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer'
+            ? 'text-muted-foreground/30 border-border/30 cursor-not-allowed'
+            : 'text-zinc-300 hover:bg-zinc-800 hover:text-white cursor-pointer active:scale-95'
         )}
         aria-label="Previous page"
+        title="Previous page"
       >
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft className="h-3.5 w-3.5" />
+        {showLabels && <span className="hidden sm:inline">Prev</span>}
       </button>
 
       {/* Page Numbers */}
-      {pages.map((page, idx) =>
-        page === '...' ? (
-          <span
-            key={`ellipsis-${idx}`}
-            className="inline-flex h-9 w-9 items-center justify-center text-xs text-muted-foreground select-none"
-          >
-            …
-          </span>
-        ) : (
-          <button
-            key={page}
-            type="button"
-            onClick={() => onPageChange(page)}
-            className={cn(
-              'inline-flex h-9 w-9 items-center justify-center rounded-lg text-xs font-medium transition-colors cursor-pointer',
-              page === currentPage
-                ? 'bg-primary text-primary-foreground font-bold'
-                : 'text-muted-foreground hover:bg-muted hover:text-foreground border border-transparent hover:border-border/60'
-            )}
-            aria-current={page === currentPage ? 'page' : undefined}
-          >
-            {page}
-          </button>
-        )
-      )}
+      <div className="flex items-center gap-1">
+        {pages.map((page, idx) =>
+          page === '...' ? (
+            <span
+              key={`ellipsis-${idx}`}
+              className="inline-flex h-8 w-6 items-center justify-center text-xs text-muted-foreground select-none"
+            >
+              …
+            </span>
+          ) : (
+            <button
+              key={page}
+              type="button"
+              onClick={() => onPageChange(page)}
+              className={cn(
+                'inline-flex h-8 min-w-[32px] px-2 items-center justify-center rounded-lg text-xs font-medium transition-all cursor-pointer',
+                page === currentPage
+                  ? 'bg-zinc-100 text-zinc-950 font-bold shadow-sm'
+                  : 'text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 border border-transparent hover:border-zinc-700/60'
+              )}
+              aria-current={page === currentPage ? 'page' : undefined}
+            >
+              {page}
+            </button>
+          )
+        )}
+      </div>
 
       {/* Next */}
       <button
@@ -98,14 +110,16 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
         onClick={() => onPageChange(Math.min(currentPage + 1, totalPages))}
         disabled={currentPage === totalPages}
         className={cn(
-          'inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border/60 transition-colors',
+          'inline-flex h-8 items-center justify-center rounded-lg border border-border/70 text-xs font-medium transition-colors px-2.5 gap-1',
           currentPage === totalPages
-            ? 'text-muted-foreground/40 cursor-not-allowed'
-            : 'text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer'
+            ? 'text-muted-foreground/30 border-border/30 cursor-not-allowed'
+            : 'text-zinc-300 hover:bg-zinc-800 hover:text-white cursor-pointer active:scale-95'
         )}
         aria-label="Next page"
+        title="Next page"
       >
-        <ChevronRight className="h-4 w-4" />
+        {showLabels && <span className="hidden sm:inline">Next</span>}
+        <ChevronRight className="h-3.5 w-3.5" />
       </button>
     </nav>
   );

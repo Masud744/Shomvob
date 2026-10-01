@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { Button } from '@/components/ui/button';
@@ -24,6 +24,8 @@ import {
   Bookmark,
   Quote,
   RotateCcw,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { SearchableJobCombobox } from '@/components/dashboard/SearchableJobCombobox';
 import { JobListItem } from '@/components/dashboard/JobListItem';
@@ -46,7 +48,7 @@ const DEFAULT_SOURCES: SourceInfo[] = [
   { source: 'BD Govt Jobs', count: 7 },
 ];
 
-const JOBS_PER_PAGE = 10;
+const JOBS_PER_PAGE = 6;
 
 const SORT_OPTIONS = [
   { value: 'relevant', label: 'Most Relevant' },
@@ -80,6 +82,18 @@ export default function JobsPage() {
   const [sortBy, setSortBy] = useState('relevant');
   const [allSources, setAllSources] = useState<SourceInfo[]>(DEFAULT_SOURCES);
   const [savedJobIds, setSavedJobIds] = useState<Set<string>>(new Set());
+  const [userSkills, setUserSkills] = useState<string[]>([]);
+
+  const fetchUserSkills = async () => {
+    try {
+      const res = await api.get<{ skill_name: string }[]>('/profile/skills');
+      if (Array.isArray(res)) {
+        setUserSkills(res.map((s) => s.skill_name.toLowerCase().trim()).filter(Boolean));
+      }
+    } catch {
+      /* guest or profile not setup */
+    }
+  };
 
   // ── Selection ──
   const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
@@ -153,6 +167,7 @@ export default function JobsPage() {
     fetchJobs();
     fetchSavedIds();
     fetchSources();
+    fetchUserSkills();
   }, []);
 
   // Restore selected job from URL or localStorage without losing user state
@@ -393,6 +408,53 @@ export default function JobsPage() {
       job.requirements
     );
   };
+
+  const getJobMatchScore = useCallback(
+    (job: Job): number | null => {
+      // 1. If backend already computed deep AI score, use it
+      if (typeof job.match_score === 'number' && job.match_score > 0) {
+        return job.match_score;
+      }
+
+      // 2. Govt circulars are exam/grade-based, never ATS keyword matched
+      if (job.source === 'BD Govt Jobs' || (job.categories || []).some((c: any) => c.category === 'government')) {
+        return null;
+      }
+
+      // 3. User must have skills registered
+      if (!userSkills || userSkills.length === 0) return null;
+
+      // 4. Job must have real required skills
+      const jSkills = getJobSkills(job);
+      if (!jSkills || jSkills.length === 0) return null;
+
+      // 5. Strict, accurate skill matching (no loose substring false-positives)
+      let matches = 0;
+      jSkills.forEach((skill) => {
+        const sLower = skill.toLowerCase().trim();
+        const hasMatch = userSkills.some((uSkill) => {
+          const uLower = uSkill.toLowerCase().trim();
+          if (uLower === sLower) return true;
+          if (uLower.replace(/[.\-]/g, '') === sLower.replace(/[.\-]/g, '')) return true;
+          return false;
+        });
+        if (hasMatch) {
+          matches += 1;
+        }
+      });
+
+      if (matches === 0) return null;
+
+      // Authentic percentage based strictly on matched skills vs total required skills
+      const score = Math.round((matches / jSkills.length) * 100);
+
+      // Only display match score badge if there is a meaningful match (>= 40%)
+      if (score < 40) return null;
+
+      return Math.min(score, 98);
+    },
+    [userSkills, getJobSkills]
+  );
 
   const hasActiveFilters = categoryFilter !== 'all' || experienceFilter !== 'all' || workTypeFilter !== 'all' || locationFilter !== 'all' || salaryFilter !== 'all' || search;
   const activeFiltersCount = [
@@ -1024,23 +1086,80 @@ export default function JobsPage() {
         </div>
       ) : filteredJobs.length > 0 ? (
         <>
-          {/* Job Count + Sort */}
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">
-              <span className="font-semibold text-foreground">{filteredJobs.length}</span> jobs found
-            </span>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground hidden sm:inline">Sort by:</span>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="h-8 bg-card border border-border/60 text-xs rounded-lg px-2.5 pr-7 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer transition-colors appearance-none text-foreground font-medium"
-                style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23888%27 stroke-width=%272%27%3E%3Cpath d=%27M6 9l6 6 6-6%27/%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 6px center' }}
-              >
-                {SORT_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
-                ))}
-              </select>
+          {/* Job Count + Sort + Top Quick Pagination */}
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground">
+                <span className="font-semibold text-foreground">{filteredJobs.length}</span> jobs found
+              </span>
+              {totalPages > 1 && (
+                <span className="text-xs text-muted-foreground border-l border-border/60 pl-3">
+                  Page <span className="font-semibold text-foreground">{currentPage}</span> of{' '}
+                  <span className="font-semibold text-foreground">{totalPages}</span>
+                </span>
+              )}
+            </div>
+
+            <div className="flex items-center gap-2.5">
+              {/* Quick Prev / Next Controls */}
+              {totalPages > 1 && (
+                <div className="flex items-center gap-1 bg-card border border-border/60 rounded-lg p-0.5 shadow-sm">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const prevPage = Math.max(currentPage - 1, 1);
+                      setCurrentPage(prevPage);
+                      const firstJob = filteredJobs[(prevPage - 1) * JOBS_PER_PAGE];
+                      if (firstJob) setSelectedJobId(firstJob.id);
+                    }}
+                    disabled={currentPage === 1}
+                    className="inline-flex h-7 px-2 items-center gap-1 text-xs rounded-md text-zinc-300 hover:text-white hover:bg-zinc-800 disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                    title="Previous page"
+                  >
+                    <ChevronLeft className="h-3.5 w-3.5" />
+                    <span className="hidden sm:inline">Prev</span>
+                  </button>
+                  <span className="text-[11px] font-semibold text-zinc-300 px-1 select-none">
+                    {currentPage}/{totalPages}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const nextPage = Math.min(currentPage + 1, totalPages);
+                      setCurrentPage(nextPage);
+                      const firstJob = filteredJobs[(nextPage - 1) * JOBS_PER_PAGE];
+                      if (firstJob) setSelectedJobId(firstJob.id);
+                    }}
+                    disabled={currentPage === totalPages}
+                    className="inline-flex h-7 px-2 items-center gap-1 text-xs rounded-md text-zinc-300 hover:text-white hover:bg-zinc-800 disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                    title="Next page"
+                  >
+                    <span className="hidden sm:inline">Next</span>
+                    <ChevronRight className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              )}
+
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs text-muted-foreground hidden sm:inline">Sort:</span>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="h-8 bg-card border border-border/60 text-xs rounded-lg px-2.5 pr-7 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer transition-colors appearance-none text-foreground font-medium"
+                  style={{
+                    backgroundImage:
+                      'url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23888%27 stroke-width=%272%27%3E%3Cpath d=%27M6 9l6 6 6-6%27/%3E%3C/svg%3E")',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 6px center',
+                  }}
+                >
+                  {SORT_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
 
@@ -1058,18 +1177,35 @@ export default function JobsPage() {
                     onSelect={handleSelectJob}
                     onSaveToggle={handleSaveToggle}
                     getJobSkills={getJobSkills}
+                    matchScore={getJobMatchScore(job)}
                   />
                 ))}
               </div>
 
-              {/* Fixed Bottom Pagination docked inside the left list box */}
-              <div className="border-t border-border/50 bg-card/95 px-3 py-2 shrink-0">
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={setCurrentPage}
-                />
-              </div>
+              {/* Bottom Docked Pagination Bar */}
+              {totalPages > 1 && (
+                <div className="shrink-0 border-t border-border/60 bg-card/95 backdrop-blur px-3 py-2.5 flex flex-wrap items-center justify-between gap-2">
+                  <div className="text-[11px] text-muted-foreground whitespace-nowrap">
+                    Showing{' '}
+                    <span className="font-semibold text-foreground">
+                      {(currentPage - 1) * JOBS_PER_PAGE + 1}–
+                      {Math.min(currentPage * JOBS_PER_PAGE, filteredJobs.length)}
+                    </span>{' '}
+                    of <span className="font-semibold text-foreground">{filteredJobs.length}</span>
+                  </div>
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    showLabels={true}
+                    onPageChange={(page) => {
+                      setCurrentPage(page);
+                      const firstJob = filteredJobs[(page - 1) * JOBS_PER_PAGE];
+                      if (firstJob) setSelectedJobId(firstJob.id);
+                    }}
+                    className="p-0"
+                  />
+                </div>
+              )}
             </section>
 
             {/* Desktop Right: Detail Panel Box (Internal scrolling inside panel) */}

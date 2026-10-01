@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight, Bot, Code, Cpu, Database, Server, Zap } from 'lucide-react'
 
 export default function LandingPage() {
@@ -9,9 +10,12 @@ export default function LandingPage() {
         <div className="container flex h-16 max-w-screen-2xl items-center px-4">
           <div className="mr-4 hidden md:flex">
             <Link href="/" className="mr-6 flex items-center space-x-2">
-              <img
+              <Image
                 src="/shombhob-brand-white.png"
                 alt="সম্ভব"
+                width={160}
+                height={32}
+                priority
                 className="h-8 w-auto object-contain"
               />
             </Link>

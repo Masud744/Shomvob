@@ -16,8 +16,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 4%;
 
-    --primary: 240 10% 4%;            /* #09090b */
-    --primary-foreground: 0 0% 98%;
+    --primary: 221.2 83.2% 53.3%;     /* Modern SaaS Blue */
+    --primary-foreground: 210 40% 98%;
 
     --secondary: 240 5% 92%;          /* #e9e9ee */
     --secondary-foreground: 240 10% 4%;
@@ -50,8 +50,8 @@
     --popover: 240 10% 8.5%;           /* #15161a */
     --popover-foreground: 0 0% 98%;
 
-    --primary: 0 0% 98%;              /* #fafafa */
-    --primary-foreground: 240 10% 4%;
+    --primary: 217.2 91.2% 59.8%;     /* Modern SaaS Blue */
+    --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 240 5% 14%;          /* #232328 */
     --secondary-foreground: 0 0% 98%;
@@ -81,6 +81,9 @@
   }
   html.light {
     color-scheme: light;
+  }
+  html {
+    scroll-behavior: smooth;
   }
   body {
     @apply bg-background text-foreground antialiased;
@@ -194,3 +197,34 @@
 /* ── Ensure no-scrollbar utility ── */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+/* ── Clean A4 Cover Letter Print Styling ── */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 15mm 20mm;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  body * {
+    visibility: hidden;
+  }
+  #printable-cover-letter,
+  #printable-cover-letter * {
+    visibility: visible;
+  }
+  #printable-cover-letter {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    background: white !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}

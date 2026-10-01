@@ -36,3 +36,7 @@ backend/app/generated/
 
 # Logs
 *.log
+
+AGENTS.md
+.agents
+TODO.md

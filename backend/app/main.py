@@ -17,6 +17,7 @@ from fastapi.responses import JSONResponse
 from app.config import get_settings
 from app.routers import (
     applications,
+    competitions,
     cover_letter,
     health,
     jobs,
@@ -45,17 +46,41 @@ async def _run_daily_cleanup():
         await asyncio.sleep(86400)
 
 
+async def _run_scheduled_job_sync():
+    """Background task: auto-sync jobs across multi-sources every 12 hours."""
+    from app.services.job_scraper import sync_jobs
+    # Wait 30 seconds after server boots to avoid contention during startup
+    await asyncio.sleep(30)
+    while True:
+        try:
+            logger.info("Running scheduled background multi-source job sync...")
+            result = await sync_jobs()
+            logger.info("Scheduled job sync finished: %s", result.get("message") if isinstance(result, dict) else result)
+        except Exception as exc:
+            logger.error("Scheduled job sync failed: %s", exc, exc_info=True)
+        # Sleep for 12 hours (43,200 seconds)
+        await asyncio.sleep(43200)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Lifespan context manager for application startup and shutdown events."""
     logger.info("Starting up EngineerCopilot AI API...")
+    try:
+        from app.services.competition_scraper import sync_competitions
+        asyncio.create_task(asyncio.to_thread(sync_competitions))
+    except Exception as e:
+        logger.warning("Initial competition sync error: %s", e)
     cleanup_task = asyncio.create_task(_run_daily_cleanup())
+    sync_task = asyncio.create_task(_run_scheduled_job_sync())
     yield
     cleanup_task.cancel()
-    try:
-        await cleanup_task
-    except asyncio.CancelledError:
-        pass
+    sync_task.cancel()
+    for task in (cleanup_task, sync_task):
+        try:
+            await task
+        except asyncio.CancelledError:
+            pass
     logger.info("Shutting down EngineerCopilot AI API...")
 
 
@@ -74,7 +99,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.allowed_origins,
-    allow_credentials=True,
+    allow_credentials=True, # Note: if allowed_origins contains "*", this will fail in production
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -101,6 +126,7 @@ app.include_router(resume.router, prefix=api_prefix)
 app.include_router(cover_letter.router, prefix=api_prefix)
 app.include_router(applications.router, prefix=api_prefix)
 app.include_router(saved_jobs.router, prefix=api_prefix)
+app.include_router(competitions.router, prefix=api_prefix)
 
 
 if __name__ == "__main__":

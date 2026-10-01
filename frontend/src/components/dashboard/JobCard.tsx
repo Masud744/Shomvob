@@ -1,5 +1,7 @@
+"use client";
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -30,6 +32,7 @@ export function JobCard({
   isSaved?: boolean;
   onSaveToggle?: (jobId: string) => void;
 }) {
+  const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -52,7 +55,7 @@ export function JobCard({
     e.stopPropagation();
     if (!onSaveToggle) return;
     if (!isLoggedIn) {
-      window.location.href = '/login';
+      router.push('/login');
       return;
     }
     onSaveToggle(job.id || job.job_id || '');
@@ -129,11 +132,11 @@ export function JobCard({
 
             <div className="flex flex-wrap items-center text-xs text-muted-foreground gap-3 select-text">
               <span className="flex items-center gap-1 text-foreground/90 font-medium">
-                <Building2 className="w-3.5 h-3.5 text-zinc-400" strokeWidth={1.75} />
+                <Building2 className="w-3.5 h-3.5 text-indigo-400/90" strokeWidth={1.75} />
                 {job.company}
               </span>
               <span className="flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-muted-foreground/80" strokeWidth={1.75} />
+                <MapPin className="w-3.5 h-3.5 text-sky-500/90" strokeWidth={1.75} />
                 {job.location || 'Remote'}
               </span>
             </div>
@@ -152,9 +155,9 @@ export function JobCard({
             </span>
           ) : (
             <span
-              className={`flex-shrink-0 text-[10px] font-semibold tracking-wider uppercase rounded-full px-2.5 py-0.5 flex items-center gap-1 bg-muted/60 border border-border text-foreground`}
+              className={`flex-shrink-0 text-[10px] font-semibold tracking-wider uppercase rounded-full px-2.5 py-0.5 flex items-center gap-1 ${isGovt ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-400" : "bg-muted/60 border-border text-foreground"}`}
             >
-              {isGovt && <Landmark className="w-3 h-3 text-foreground" strokeWidth={1.75} />}
+              {isGovt && <Landmark className="w-3 h-3" strokeWidth={1.75} />}
               {sourceInfo.label}
             </span>
           )}
@@ -165,7 +168,7 @@ export function JobCard({
         <div className="space-y-4">
           <div className="flex items-center justify-between text-xs text-muted-foreground select-text">
             <span className="flex items-center gap-1 font-medium text-foreground font-mono">
-              <DollarSign className="w-3.5 h-3.5 text-muted-foreground" strokeWidth={1.75} />
+              <DollarSign className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" strokeWidth={1.75} />
               {job.salary_min
                 ? `${job.salary_currency || '$'}${job.salary_min.toLocaleString()} - ${
                     job.salary_max ? job.salary_max.toLocaleString() : '+'
@@ -183,7 +186,7 @@ export function JobCard({
           {/* Balanced, Clean Tag Row (Taito.ai monochrome pills) */}
           <div className="flex flex-wrap items-center gap-1.5 select-text">
             {showRemote && (
-              <span className="rounded-full bg-muted/60 border border-border px-2.5 py-0.5 text-[10px] font-medium text-foreground">
+              <span className="rounded-full bg-teal-500/10 border border-teal-500/20 px-2.5 py-0.5 text-[10px] font-medium text-teal-700 dark:text-teal-400">
                 Remote
               </span>
             )}

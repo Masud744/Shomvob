@@ -2,15 +2,16 @@
 
 import { useState } from 'react';
 import { getCompanyLogoUrl } from '@/lib/utils';
-import { Landmark } from 'lucide-react';
+import { Landmark, BriefcaseBusiness, Globe } from 'lucide-react';
 
 interface CompanyLogoProps {
   company?: string;
+  source?: string;
   size?: 'sm' | 'md' | 'lg';
   className?: string;
 }
 
-export function CompanyLogo({ company = '', size = 'md', className = '' }: CompanyLogoProps) {
+export function CompanyLogo({ company = '', source = '', size = 'md', className = '' }: CompanyLogoProps) {
   const [imgError, setImgError] = useState(false);
   const cleanName = (company || '').trim().toLowerCase();
   const initial = (company || 'J').charAt(0).toUpperCase();
@@ -81,19 +82,13 @@ export function CompanyLogo({ company = '', size = 'md', className = '' }: Compa
     );
   }
 
-  if (cleanName.includes('government') || cleanName.includes('bangladesh') || cleanName.includes('govt')) {
-    return (
-      <div className={`flex items-center justify-center shrink-0 bg-white/10 border border-white/20 text-white ${sizeClasses} ${className}`}>
-        <Landmark className="w-3/5 h-3/5" />
-      </div>
-    );
-  }
+  const isGovt = cleanName.includes('government') || cleanName.includes('bangladesh') || cleanName.includes('govt') || source === 'BD Govt Jobs';
 
   // ── Try Clearbit Logo if available ──
   const logoUrl = getCompanyLogoUrl(company);
-  if (logoUrl && !imgError) {
+  if (logoUrl && !imgError && !isGovt && source !== 'LinkedIn' && source !== 'Bdjobs') {
     return (
-      <div className={`flex items-center justify-center shrink-0 bg-card border border-border/60 overflow-hidden ${sizeClasses} ${className}`}>
+      <div className={`flex items-center justify-center shrink-0 bg-white border border-border/60 overflow-hidden ${sizeClasses} ${className}`}>
         <img
           src={logoUrl}
           alt={company}
@@ -101,6 +96,44 @@ export function CompanyLogo({ company = '', size = 'md', className = '' }: Compa
           onError={() => setImgError(true)}
           loading="lazy"
         />
+      </div>
+    );
+  }
+
+  // ── Source / Platform Logos ──
+  if (isGovt) {
+    return (
+      <div className={`flex items-center justify-center shrink-0 bg-[#006a4e] border border-[#006a4e] ${sizeClasses} ${className}`}>
+        <div className="relative flex items-center justify-center w-full h-full">
+          <div className="absolute w-3/5 h-3/5 bg-[#f42a41] rounded-full" />
+          <Landmark className="relative z-10 w-[45%] h-[45%] text-white" strokeWidth={2.5} />
+        </div>
+      </div>
+    );
+  }
+
+  if (source === 'LinkedIn' || cleanName.includes('linkedin')) {
+    return (
+      <div className={`flex items-center justify-center shrink-0 bg-[#0A66C2] text-white ${sizeClasses} ${className}`}>
+        <svg className="w-[55%] h-[55%] fill-white" viewBox="0 0 24 24">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      </div>
+    );
+  }
+
+  if (source === 'Bdjobs') {
+    return (
+      <div className={`flex items-center justify-center shrink-0 bg-[#007338] text-white ${sizeClasses} ${className}`}>
+        <BriefcaseBusiness className="w-3/5 h-3/5" />
+      </div>
+    );
+  }
+
+  if (source === 'RemoteOK' || source === 'WeWorkRemotely' || source === 'Jobicy') {
+    return (
+      <div className={`flex items-center justify-center shrink-0 bg-indigo-500 text-white ${sizeClasses} ${className}`}>
+        <Globe className="w-[55%] h-[55%]" />
       </div>
     );
   }

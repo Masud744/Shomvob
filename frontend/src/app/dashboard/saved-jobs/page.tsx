@@ -215,7 +215,7 @@ export default function SavedJobsPage() {
                         : 'hover:bg-zinc-800/30'
                     }`}
                   >
-                    <CompanyLogo company={item.job_company || 'Company'} size="sm" />
+                    <CompanyLogo company={item.job_company || 'Company'} source={item.job_source || ''} size="sm" />
 
                     <div className="min-w-0 flex-1 space-y-1">
                       <h4 className="text-xs font-semibold text-foreground truncate leading-snug">

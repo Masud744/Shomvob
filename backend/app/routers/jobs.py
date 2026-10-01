@@ -10,7 +10,8 @@ from __future__ import annotations
 import logging
 from typing import Optional
 
-from fastapi import APIRouter, BackgroundTasks, HTTPException, Query
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Query, Response
+from app.services.cache_service import memory_cache, sync_throttler
 
 from app.dependencies import CurrentUser
 from app.models.job import (
@@ -170,11 +171,22 @@ async def trigger_sync(background_tasks: BackgroundTasks):
     if _sync_running:
         return {"status": "in_progress", "message": "Job sync is already active in the background."}
 
+    can_sync, remaining = sync_throttler.can_sync()
+    if not can_sync:
+        return {
+            "status": "throttled",
+            "message": f"Job sync was run recently. Please wait {remaining // 60}m {remaining % 60}s before syncing again to prevent rate-limiting."
+        }
+
+    sync_throttler.record_sync()
+
     async def _do_sync():
         global _sync_running
         _sync_running = True
         try:
             await sync_jobs()
+            invalidated = memory_cache.invalidate(prefix="jobs:")
+            logger.info("Job sync finished. Invalidated %d cached items", invalidated)
         except Exception as exc:
             logger.error("Background job sync failed: %s", exc)
         finally:
@@ -191,16 +203,28 @@ def get_sync_status():
 
 
 @router.get("/sources")
-def get_job_sources():
+def get_job_sources(response: Response):
     """Get all unique job sources with their active job counts."""
+    cache_key = "jobs:sources"
+    cached = memory_cache.get(cache_key)
+    if cached is not None:
+        response.headers["X-Cache"] = "HIT"
+        response.headers["Cache-Control"] = "public, max-age=180, stale-while-revalidate=600"
+        return cached
+
     res = db().table("jobs").select("source").eq("is_active", True).execute()
     from collections import Counter
     counts = Counter([r["source"] for r in (res.data or []) if r.get("source")])
-    return [{"source": k, "count": v} for k, v in counts.most_common()]
+    data = [{"source": k, "count": v} for k, v in counts.most_common()]
+    memory_cache.set(cache_key, data, ttl_seconds=600)
+    response.headers["X-Cache"] = "MISS"
+    response.headers["Cache-Control"] = "public, max-age=180, stale-while-revalidate=600"
+    return data
 
 
 @router.get("", response_model=JobListResponse)
 def list_jobs(
+    response: Response,
     keyword: Optional[str] = None,
     location: Optional[str] = None,
     category: Optional[str] = None,
@@ -213,8 +237,14 @@ def list_jobs(
 ):
     """
     List jobs with optional filtering.
-    No authentication required — jobs are public.
+    Cached in RAM with TTL 180s for ultra-low latency (<2ms).
     """
+    cache_key = f"jobs:list:{keyword or ''}:{location or ''}:{category or ''}:{source or ''}:{remote_only}:{experience_level or ''}:{limit}:{offset}:{sort}"
+    cached = memory_cache.get(cache_key)
+    if cached is not None:
+        response.headers["X-Cache"] = "HIT"
+        response.headers["Cache-Control"] = "public, max-age=60, stale-while-revalidate=180"
+        return cached
     card_fields = (
         "id, title, company, location, is_remote, remote_type, "
         "experience_level, salary_min, salary_max, salary_currency, "
@@ -319,50 +349,58 @@ def list_jobs(
         enriched_items.append(item)
 
     items = enriched_items
-
-    return {
+    result_data = {
         "items": items,
         "total": len(items),
         "limit": limit,
         "offset": offset,
     }
+    memory_cache.set(cache_key, result_data, ttl_seconds=180)
+    response.headers["X-Cache"] = "MISS"
+    response.headers["Cache-Control"] = "public, max-age=60, stale-while-revalidate=180"
+    return result_data
 
 
 @router.get("/categories")
-def get_categories():
+def get_categories(response: Response):
     """Get all available job categories with counts."""
+    cache_key = "jobs:categories"
+    cached = memory_cache.get(cache_key)
+    if cached is not None:
+        response.headers["X-Cache"] = "HIT"
+        response.headers["Cache-Control"] = "public, max-age=300, stale-while-revalidate=600"
+        return cached
+
     result = db().table("job_categories").select("category").execute()
     categories = {}
     for row in (result.data or []):
         cat = row.get("category", "")
         categories[cat] = categories.get(cat, 0) + 1
-    return {
+    data = {
         "categories": [
             {"name": k, "count": v, "display_name": k.replace("_", " ").title()}
             for k, v in sorted(categories.items(), key=lambda x: x[1], reverse=True)
         ]
     }
+    memory_cache.set(cache_key, data, ttl_seconds=600)
+    response.headers["X-Cache"] = "MISS"
+    response.headers["Cache-Control"] = "public, max-age=300, stale-while-revalidate=600"
+    return data
 
 
-@router.get("/sources")
-def get_sources():
-    """Get all available job sources with counts."""
-    result = db().table("jobs").select("source").eq("is_active", True).execute()
-    sources = {}
-    for row in (result.data or []):
-        src = row.get("source", "")
-        sources[src] = sources.get(src, 0) + 1
-    return {
-        "sources": [
-            {"name": k, "count": v}
-            for k, v in sorted(sources.items(), key=lambda x: x[1], reverse=True)
-        ]
-    }
+# Duplicate get_sources replaced by cached get_job_sources above
 
 
 @router.get("/{job_id}")
-def get_job(job_id: str):
+def get_job(job_id: str, response: Response):
     """Get a single job by ID."""
+    cache_key = f"jobs:detail:{job_id}"
+    cached = memory_cache.get(cache_key)
+    if cached is not None:
+        response.headers["X-Cache"] = "HIT"
+        response.headers["Cache-Control"] = "public, max-age=300, stale-while-revalidate=600"
+        return cached
+
     result = (
         db()
         .table("jobs")
@@ -396,6 +434,9 @@ def get_job(job_id: str):
     job["required_skills"] = sanitize_and_extract_skills(
         raw_skills, job.get("title", ""), job.get("description", "") or "", job.get("requirements", "") or "", cats
     )
+    memory_cache.set(cache_key, job, ttl_seconds=600)
+    response.headers["X-Cache"] = "MISS"
+    response.headers["Cache-Control"] = "public, max-age=300, stale-while-revalidate=600"
     return job
 
 
