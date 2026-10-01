@@ -18,6 +18,11 @@ from app.models.application import (
     ApplicationUpdate,
 )
 from app.utils.supabase import get_supabase_admin
+from app.services.cache_service import memory_cache
+
+def _invalidate_user_apps_cache(user_id: str):
+    memory_cache.invalidate(prefix=f"apps:list:{user_id}")
+    memory_cache.invalidate(prefix=f"apps:stats:{user_id}")
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/applications", tags=["applications"])
@@ -52,6 +57,11 @@ def list_applications(
     status_filter: str | None = Query(None, alias="status"),
 ):
     """Get all applications for the current user, with optional status filter."""
+    cache_key = f"apps:list:{user.user_id}:{status_filter or 'all'}"
+    cached = memory_cache.get(cache_key)
+    if cached is not None:
+        return cached
+
     query = (
         db()
         .table("applications")
@@ -65,8 +75,9 @@ def list_applications(
 
     result = query.execute()
     items = result.data or []
-
-    return [_format_app_item(item) for item in items]
+    data = [_format_app_item(item) for item in items]
+    memory_cache.set(cache_key, data, ttl_seconds=60)
+    return data
 
 
 @router.post("", response_model=ApplicationResponse, status_code=status.HTTP_201_CREATED)
@@ -136,6 +147,7 @@ def create_application(data: ApplicationCreate, user: CurrentUser):
         raise HTTPException(status_code=500, detail="Failed to track application")
     
     app_data = result.data[0]
+    _invalidate_user_apps_cache(user.user_id)
     return _format_app_item(app_data, job_dict)
 
 
@@ -236,6 +248,7 @@ def seed_demo_applications(user: CurrentUser):
                 "applied_date": datetime.utcnow().isoformat(),
             }).execute()
 
+    _invalidate_user_apps_cache(user.user_id)
     return list_applications(user=user)
 
 
@@ -264,6 +277,7 @@ def update_application(application_id: str, data: ApplicationUpdate, user: Curre
     job_res = db().table("jobs").select("title, company, location, salary_min, salary_max, salary_currency, apply_url, source").eq("id", app_data["job_id"]).execute()
     job_dict = job_res.data[0] if job_res.data else {}
 
+    _invalidate_user_apps_cache(user.user_id)
     return _format_app_item(app_data, job_dict)
 
 
@@ -271,11 +285,17 @@ def update_application(application_id: str, data: ApplicationUpdate, user: Curre
 def delete_application(application_id: str, user: CurrentUser):
     """Delete an application."""
     db().table("applications").delete().eq("id", application_id).eq("user_id", user.user_id).execute()
+    _invalidate_user_apps_cache(user.user_id)
 
 
 @router.get("/stats", response_model=ApplicationStats)
 def get_stats(user: CurrentUser):
     """Get application statistics for the dashboard."""
+    cache_key = f"apps:stats:{user.user_id}"
+    cached = memory_cache.get(cache_key)
+    if cached is not None:
+        return cached
+
     result = (
         db()
         .table("applications")
@@ -302,4 +322,5 @@ def get_stats(user: CurrentUser):
         if s in stats:
             stats[s] += 1
 
+    memory_cache.set(cache_key, stats, ttl_seconds=60)
     return stats

@@ -9,6 +9,7 @@ import {
   Sparkles,
   Bookmark,
   ArrowRight,
+  X,
   Building2,
   Globe,
   DollarSign,
@@ -79,6 +80,10 @@ export function JobDetailPanel({
   // In-panel AI Match state
   const [matchState, setMatchState] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
   const [matchData, setMatchData] = useState<MatchDetails | null>(null);
+  // Apply -> Application Tracker bridge state
+  const [showApplyPrompt, setShowApplyPrompt] = useState(false);
+  const [isTrackingApp, setIsTrackingApp] = useState(false);
+  const [trackedSuccess, setTrackedSuccess] = useState(false);
 
   const cleanTitle = decodeHtmlEntities(job.title);
   const cleanCompany = decodeHtmlEntities(job.company);
@@ -122,6 +127,9 @@ export function JobDetailPanel({
     // Reset match state when job changes
     setMatchState('idle');
     setMatchData(null);
+    setShowApplyPrompt(false);
+    setIsTrackingApp(false);
+    setTrackedSuccess(false);
 
     return () => {
       isMounted = false;
@@ -177,6 +185,26 @@ export function JobDetailPanel({
         ],
       });
       setMatchState('done');
+    }
+  };
+
+  // Track application in user's Kanban board
+  const handleAddToApplications = async () => {
+    setIsTrackingApp(true);
+    try {
+      await api.post('/applications', {
+        job_id: currentJob.id,
+        status: 'applied',
+        notes: `Applied via ${currentJob.source || 'portal'} link on ${new Date().toLocaleDateString()}`,
+      });
+      setTrackedSuccess(true);
+    } catch (err: unknown) {
+      const msg = String((err as { detail?: string; message?: string })?.detail || (err as { detail?: string; message?: string })?.message || '');
+      if (msg.toLowerCase().includes('already') || msg.toLowerCase().includes('duplicate') || msg.toLowerCase().includes('pipeline')) {
+        setTrackedSuccess(true);
+      }
+    } finally {
+      setIsTrackingApp(false);
     }
   };
 
@@ -244,7 +272,7 @@ export function JobDetailPanel({
       <div className="p-4 sm:p-5 pb-3 sm:pb-4 border-b border-border/50 shrink-0 bg-card">
         <div className="flex items-start gap-3.5">
           {/* Company Brand Logo */}
-          <CompanyLogo company={cleanCompany} size="lg" />
+          <CompanyLogo company={cleanCompany} source={job.source} size="lg" />
 
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
@@ -318,14 +346,16 @@ export function JobDetailPanel({
         {/* Action Buttons: Apply, Analyze with AI, Save */}
         <div className="mt-3.5 grid grid-cols-3 gap-2">
           {job.apply_url ? (
-            <a
-              href={job.apply_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg px-3 text-xs font-semibold transition-colors bg-primary text-primary-foreground hover:bg-primary/90"
+            <button
+              type="button"
+              onClick={() => {
+                window.open(job.apply_url, '_blank', 'noopener,noreferrer');
+                setShowApplyPrompt(true);
+              }}
+              className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg px-3 text-xs font-semibold transition-all bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm cursor-pointer active:scale-[0.98]"
             >
-              Apply <ExternalLink className="h-3.5 w-3.5" />
-            </a>
+              {isGovt ? 'View Circular' : 'Apply'} <ExternalLink className="h-3.5 w-3.5" />
+            </button>
           ) : (
             <Button disabled className="h-9 text-xs">
               No link
@@ -352,6 +382,60 @@ export function JobDetailPanel({
             {isSaved ? 'Saved' : 'Save'}
           </Button>
         </div>
+
+        {/* ── Auto-sync Application Tracker Prompt ── */}
+        {showApplyPrompt && (
+          <div className="mt-3 rounded-xl border border-sky-500/30 bg-sky-500/10 p-3 text-xs animate-in fade-in slide-in-from-top-2 duration-200 shadow-sm">
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex items-start gap-2.5">
+                <div className="h-7 w-7 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 mt-0.5">
+                  <Clock3 className="h-4 w-4" />
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground">Track your application to {cleanCompany}?</p>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">
+                    Add this role to your Applications Board to track interview stages, dates, and notes.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowApplyPrompt(false)}
+                className="text-muted-foreground hover:text-foreground p-0.5 rounded cursor-pointer"
+                title="Dismiss"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </div>
+            <div className="mt-2.5 flex items-center gap-2 pl-9">
+              <Button
+                size="sm"
+                onClick={handleAddToApplications}
+                disabled={isTrackingApp || trackedSuccess}
+                className={`h-7 text-xs font-medium cursor-pointer transition-all ${
+                  trackedSuccess
+                    ? 'bg-emerald-600 hover:bg-emerald-600 text-white'
+                    : 'bg-sky-500 hover:bg-sky-600 text-white'
+                }`}
+              >
+                {isTrackingApp ? (
+                  <Loader2 className="h-3 w-3 animate-spin mr-1.5" />
+                ) : trackedSuccess ? (
+                  <CheckCircle2 className="h-3 w-3 mr-1.5" />
+                ) : (
+                  <Sparkles className="h-3 w-3 mr-1.5" />
+                )}
+                {trackedSuccess ? 'Tracked in Pipeline ✓' : 'Add to Application Board'}
+              </Button>
+              <Link
+                href="/dashboard/applications"
+                className="text-[11px] text-sky-400 hover:underline inline-flex items-center gap-1 font-medium ml-1"
+              >
+                View Board <ArrowRight className="h-3 w-3" />
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* Tab Navigation */}
         <div className="flex gap-1 overflow-x-auto border-t border-border/50 pt-2.5 mt-3 scrollbar-none">
@@ -536,7 +620,7 @@ export function JobDetailPanel({
             </h3>
             <div className="p-4 rounded-xl border border-border/60 bg-muted/20 space-y-3">
               <div className="flex items-center gap-3">
-                <CompanyLogo company={cleanCompany} size="md" />
+                <CompanyLogo company={cleanCompany} source={job.source} size="md" />
                 <div>
                   <h4 className="text-sm font-bold text-foreground">{cleanCompany || 'External Organization'}</h4>
                   <p className="text-xs text-muted-foreground">{cleanLocation || 'Global'}</p>

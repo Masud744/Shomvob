@@ -292,23 +292,7 @@ export function cleanJobSkills(
     }
   }
 
-  // 3. Third pass: If still under 2 skills, inject curated defaults for category
-  if (cleaned.length < 2) {
-    for (const cat of categoryList) {
-      const defaults = CATEGORY_DEFAULT_SKILLS[cat];
-      if (defaults) {
-        for (const defSkill of defaults) {
-          const lowerDef = defSkill.toLowerCase();
-          if (!seen.has(lowerDef)) {
-            seen.add(lowerDef);
-            cleaned.push(defSkill);
-            if (cleaned.length >= 4) break;
-          }
-        }
-      }
-      if (cleaned.length >= 3) break;
-    }
-  }
+  // Pass 3 (fake category default injection) removed: Never force unmentioned skills.
 
   return cleaned.slice(0, 6);
 }

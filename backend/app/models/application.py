@@ -112,6 +112,24 @@ class CoverLetterGenerateRequest(BaseModel):
     company_name: Optional[str] = None
     job_title: Optional[str] = None
     job_description: Optional[str] = None
+    tone: Optional[str] = "academic"
+    custom_focus: Optional[str] = None
+    provider: Optional[str] = "auto"  # "auto" | "groq" | "gemini" 
+
+
+class CoverLetterPdfRequest(BaseModel):
+    applicant_name: str
+    contact_info: Optional[str] = ""
+    date_str: Optional[str] = ""
+    recipient_info: Optional[str] = ""
+    subject: Optional[str] = ""
+    body: str
+    template: Optional[str] = "modern_minimal"
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    location: Optional[str] = None
+    linkedin_url: Optional[str] = None
+    github_url: Optional[str] = None
 
 
 class CoverLetterResponse(BaseModel):

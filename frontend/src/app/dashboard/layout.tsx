@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import {
   Cpu,
   FileText,
+  FileEdit,
   Home,
   LogOut,
   Menu,
@@ -16,6 +17,7 @@ import {
   Bookmark,
   Settings,
   Bell,
+  Trophy,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -28,8 +30,10 @@ import { ProfileDropdown } from '@/components/dashboard/ProfileDropdown'
 const SIDEBAR_ITEMS = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },
   { name: 'Find Jobs', href: '/dashboard/jobs', icon: Briefcase },
+  { name: 'Competitions', href: '/dashboard/competitions', icon: Trophy },
   { name: 'Saved Jobs', href: '/dashboard/saved-jobs', icon: Bookmark },
   { name: 'Applications', href: '/dashboard/applications', icon: FileText },
+  { name: 'Cover Letter', href: '/dashboard/cover-letter', icon: FileEdit },
   { name: 'Profile', href: '/dashboard/profile', icon: User },
 ]
 
@@ -279,7 +283,7 @@ export default function DashboardLayout({
           className={
             isFixedViewportPage
               ? 'flex-1 bg-background px-4 py-3 lg:px-6 lg:py-4 overflow-hidden flex flex-col min-h-0 pb-16 md:pb-4'
-              : 'flex-1 bg-background p-4 lg:p-6 overflow-y-auto pb-20 md:pb-6'
+              : 'flex-1 bg-background p-4 lg:p-6 overflow-y-auto scroll-smooth pb-20 md:pb-6'
           }
         >
           {children}

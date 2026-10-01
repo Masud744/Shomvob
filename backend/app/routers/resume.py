@@ -12,7 +12,7 @@ import logging
 import uuid
 from typing import Optional
 
-from fastapi import APIRouter, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, File, Form, HTTPException, UploadFile, Response
 
 from app.dependencies import CurrentUser
 from app.models.application import (
@@ -460,9 +460,9 @@ async def parse_resume(file: UploadFile = File(...), user: CurrentUser = None):
 
 
 @router.get("/templates")
-def get_templates():
-    """List available resume templates."""
-    # Import inside handler so it never depends on module-level reload state.
+def get_templates(response: Response):
+    """List available resume templates with client caching."""
+    response.headers["Cache-Control"] = "public, max-age=3600"
     from app.utils.resume_pdf import list_templates as templates_fn
     return {"templates": templates_fn()}
 

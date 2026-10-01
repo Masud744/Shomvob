@@ -1,7 +1,6 @@
 'use client';
 
-import { useState } from 'react';
-import { MapPin, Clock3, Bookmark, Landmark } from 'lucide-react';
+import { MapPin, Clock3, Bookmark, Landmark, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatPostedDate, decodeHtmlEntities } from '@/lib/utils';
 import { CompanyLogo } from '@/components/dashboard/CompanyLogo';
@@ -14,6 +13,7 @@ interface JobListItemProps {
   onSelect: (jobId: string) => void;
   onSaveToggle: (jobId: string) => void;
   getJobSkills: (job: Job) => string[];
+  matchScore?: number | null;
 }
 
 export function JobListItem({
@@ -23,6 +23,7 @@ export function JobListItem({
   onSelect,
   onSaveToggle,
   getJobSkills,
+  matchScore,
 }: JobListItemProps) {
   const skills = getJobSkills(job);
   const cleanCompany = decodeHtmlEntities(job.company);
@@ -32,25 +33,43 @@ export function JobListItem({
 
   return (
     <div
-      className={`flex items-start gap-3 px-4 py-3.5 transition-colors cursor-pointer ${
+      className={`flex items-start gap-3 px-4 py-3.5 transition-colors cursor-pointer border-b border-border/40 ${
         isActive
-          ? 'bg-zinc-800/80 text-foreground'
-          : 'hover:bg-zinc-800/30'
+          ? 'bg-accent/80 border-l-2 border-l-primary text-foreground shadow-sm'
+          : 'hover:bg-accent/30 text-foreground'
       }`}
     >
       <button
         type="button"
         onClick={() => onSelect(job.id)}
-        className="flex min-w-0 flex-1 items-start gap-3 text-left"
+        className="flex min-w-0 flex-1 items-start gap-3 text-left cursor-pointer"
       >
         {/* Company Logo */}
-        <CompanyLogo company={cleanCompany} size="md" />
+        <CompanyLogo company={cleanCompany} source={job.source} size="md" />
 
         {/* Job Info */}
         <div className="min-w-0 flex-1">
-          <h3 className="line-clamp-2 text-[13px] font-semibold leading-[1.4] text-foreground">
-            {cleanTitle}
-          </h3>
+          <div className="flex items-start justify-between gap-1.5">
+            <h3 className="line-clamp-2 text-[13px] font-semibold leading-[1.4] text-foreground">
+              {cleanTitle}
+            </h3>
+            {typeof matchScore === 'number' && matchScore > 0 ? (
+              <span
+                className={`shrink-0 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold border transition-colors ${
+                  matchScore >= 75
+                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
+                    : matchScore >= 60
+                    ? 'bg-amber-500/10 text-amber-400 border-amber-500/25'
+                    : 'bg-zinc-800 text-zinc-300 border-zinc-700/60'
+                }`}
+                title={`${matchScore}% Match based on your technical skills`}
+              >
+                <Sparkles className="h-2.5 w-2.5" />
+                {matchScore}%
+              </span>
+            ) : null}
+          </div>
+
           <p className="mt-0.5 truncate text-xs text-muted-foreground">
             {cleanCompany || 'Company not listed'}
           </p>
@@ -64,7 +83,7 @@ export function JobListItem({
               {job.experience_level || 'Full-time'}
             </span>
             {isGovt && (
-              <span className="inline-flex items-center gap-1 text-zinc-300 font-medium">
+              <span className="inline-flex items-center gap-1 text-emerald-400 font-medium">
                 <Landmark className="h-3 w-3" />
                 Govt
               </span>
@@ -105,7 +124,7 @@ export function JobListItem({
         type="button"
         variant="ghost"
         size="icon"
-        className="h-8 w-8 shrink-0 text-muted-foreground hover:text-foreground"
+        className="h-8 w-8 shrink-0 text-muted-foreground hover:text-foreground cursor-pointer"
         title={isSaved ? 'Remove saved job' : 'Save job'}
         onClick={(e) => {
           e.stopPropagation();
