@@ -30,6 +30,7 @@
 ## Table of Contents
 
 - [Overview](#overview)
+- [Live Deployments & Demo](#live-deployments--demo)
 - [Core Performance Metrics](#core-performance-metrics)
 - [System Architecture](#system-architecture)
 - [Screenshots Gallery](#screenshots-gallery)
@@ -58,6 +59,18 @@ Finding high-impact engineering opportunities in Bangladesh has historically bee
 4. **Contextual AI Cover Letter Studio:** Generates professional A4 PDF cover letters tailored to both the candidate's profile and the exact job circular, backed by Gemini 1.5 and an automatic failover to Groq (Llama-3 70B/120B).
 5. **National Tech Fests & Hackathon Hub:** Live sync of Bangladeshi university tech events (UAP Techtron, Ideal School IAIT Fest, Dhaka College YVU Summit, DIU Robo Tech) and global Devpost remote hackathons with verified cash prize pools.
 6. **Application Pipeline (Kanban):** Drag-and-drop kanban board tracking candidate status across Saved, Applied, Assessment, Interview, Final Round, and Offer stages.
+
+---
+
+## Live Deployments & Demo
+
+| Service | Platform | URL |
+| :--- | :--- | :--- |
+| **Web Application (Frontend)** | Netlify | [https://shomvob.netlify.app](https://shomvob.netlify.app) |
+| **FastAPI REST Backend** | Render (Singapore) | [https://shomvob-backend.onrender.com](https://shomvob-backend.onrender.com) |
+| **Interactive API Documentation** | Swagger UI | [https://shomvob-backend.onrender.com/docs](https://shomvob-backend.onrender.com/docs) |
+| **Database & Identity** | Supabase | Managed PostgreSQL 15 & Auth |
+| **Source Code Repository** | GitHub | [https://github.com/Masud744/Shomvob](https://github.com/Masud744/Shomvob) |
 
 ---
 
