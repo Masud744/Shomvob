@@ -77,9 +77,15 @@ jobs:
           import json
           import os
           from app.services.job_scraper import sync_jobs
+          from app.services.competition_scraper import sync_competitions
 
+          # 1. Sync Jobs
           result = asyncio.run(sync_jobs())
-          print('Ingestion Result:', json.dumps(result, indent=2))
+          print('Job Ingestion Result:', json.dumps(result, indent=2))
+
+          # 2. Sync Competitions & Devpost Hackathons
+          comp_count = sync_competitions()
+          print(f'Competitions Synced: {comp_count}')
 
           # Write markdown summary to GitHub Actions summary tab
           summary_file = os.getenv('GITHUB_STEP_SUMMARY')
@@ -94,6 +100,7 @@ jobs:
                   f.write('| :--- | :--- |\n')
                   for src, count in sorted(result.get('sources', {}).items()):
                       f.write(f'| {src} | {count} |\n')
+                  f.write(f'\n**Verified Competitions & Hackathons Synced:** {comp_count}\n')
           "
 
       - name: Notify on failure
