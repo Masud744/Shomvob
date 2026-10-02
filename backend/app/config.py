@@ -36,6 +36,7 @@ class Settings(BaseSettings):
     app_name: str = "Shomvob API"
     debug: bool = False
     environment: str = "development"
+    enable_in_app_cron: bool = False
 
     class Config:
         env_file = ".env"

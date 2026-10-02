@@ -66,21 +66,31 @@ async def _run_scheduled_job_sync():
 async def lifespan(app: FastAPI):
     """Lifespan context manager for application startup and shutdown events."""
     logger.info("Starting up Shomvob API...")
-    try:
-        from app.services.competition_scraper import sync_competitions
-        asyncio.create_task(asyncio.to_thread(sync_competitions))
-    except Exception as e:
-        logger.warning("Initial competition sync error: %s", e)
-    cleanup_task = asyncio.create_task(_run_daily_cleanup())
-    sync_task = asyncio.create_task(_run_scheduled_job_sync())
+    cleanup_task = None
+    sync_task = None
+
+    # In production (e.g. Render 512MB tier), daily ingestion and cleanup are offloaded
+    # to GitHub Actions (daily-sync.yml) to ensure fast boot, zero health check timeouts,
+    # and low RAM footprint. On-demand sync remains available via POST /api/v1/jobs/sync.
+    if settings.enable_in_app_cron:
+        logger.info("In-app cron worker enabled via ENABLE_IN_APP_CRON=true")
+        cleanup_task = asyncio.create_task(_run_daily_cleanup())
+        sync_task = asyncio.create_task(_run_scheduled_job_sync())
+    else:
+        logger.info("In-app background cron idle (managed externally via GitHub Actions)")
+
     yield
-    cleanup_task.cancel()
-    sync_task.cancel()
+
+    if cleanup_task:
+        cleanup_task.cancel()
+    if sync_task:
+        sync_task.cancel()
     for task in (cleanup_task, sync_task):
-        try:
-            await task
-        except asyncio.CancelledError:
-            pass
+        if task:
+            try:
+                await task
+            except asyncio.CancelledError:
+                pass
     logger.info("Shutting down Shomvob API...")
 
 

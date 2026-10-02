@@ -10,12 +10,13 @@ logger = logging.getLogger(__name__)
 
 class InMemoryTTLCache:
     """
-    Thread-safe, zero-dependency in-memory TTL cache.
+    Thread-safe, zero-dependency in-memory TTL cache with bounded memory protection.
     Stores cached items in RAM for ultra-fast (sub-millisecond) retrieval.
     """
 
-    def __init__(self, default_ttl_seconds: int = 300):
+    def __init__(self, default_ttl_seconds: int = 300, max_size: int = 1000):
         self.default_ttl = default_ttl_seconds
+        self.max_size = max_size
         self._cache: Dict[str, Tuple[float, float, Any]] = {}  # key -> (stored_at, ttl, value)
         self._lock = threading.Lock()
 
@@ -31,6 +32,18 @@ class InMemoryTTLCache:
 
     def set(self, key: str, value: Any, ttl_seconds: Optional[int] = None) -> None:
         with self._lock:
+            # Memory boundary guard: evict expired or oldest entries if capacity reached
+            if len(self._cache) >= self.max_size:
+                now = time.time()
+                expired = [k for k, (stored, ttl, _) in self._cache.items() if now - stored > ttl]
+                for k in expired:
+                    del self._cache[k]
+                # If still at capacity, evict oldest 20%
+                if len(self._cache) >= self.max_size:
+                    sorted_keys = sorted(self._cache.keys(), key=lambda k: self._cache[k][0])
+                    for k in sorted_keys[: self.max_size // 5]:
+                        del self._cache[k]
+
             ttl = ttl_seconds if ttl_seconds is not None else self.default_ttl
             self._cache[key] = (time.time(), ttl, value)
 
