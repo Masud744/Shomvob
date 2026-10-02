@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/Groq-Llama--3_Failover-F55036?style=flat-square&logo=meta&logoColor=white" alt="Groq">
   <img src="https://img.shields.io/badge/Docker-Containerized-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker">
   <img src="https://img.shields.io/badge/Render-Backend_Hosting-46E3B7?style=flat-square&logo=render&logoColor=white" alt="Render">
-  <img src="https://img.shields.io/badge/Vercel-Frontend_Hosting-000000?style=flat-square&logo=vercel&logoColor=white" alt="Vercel">
+  <img src="https://img.shields.io/badge/Netlify-Frontend_Hosting-00C7B7?style=flat-square&logo=netlify&logoColor=white" alt="Netlify">
   <img src="https://img.shields.io/badge/GitHub_Actions-Daily_Job_Sync-2088FF?style=flat-square&logo=githubactions&logoColor=white" alt="GitHub Actions">
   <img src="https://img.shields.io/badge/License-MIT-4CAF50?style=flat-square" alt="License">
   <img src="https://img.shields.io/badge/Build-Passing-brightgreen?style=flat-square" alt="Build">
@@ -66,7 +66,7 @@ Finding high-impact engineering opportunities in Bangladesh has historically bee
 
 | Service | Platform | URL |
 | :--- | :--- | :--- |
-| **Web Application (Frontend)** | Vercel | [https://shomvob.vercel.app](https://shomvob.vercel.app) |
+| **Web Application (Frontend)** | Netlify | [https://shomvob.netlify.app](https://shomvob.netlify.app) |
 | **FastAPI REST Backend** | Render (Singapore) | [https://shomvob-backend.onrender.com](https://shomvob-backend.onrender.com) |
 | **Interactive API Documentation** | Swagger UI | [https://shomvob-backend.onrender.com/docs](https://shomvob-backend.onrender.com/docs) |
 | **Database & Identity** | Supabase | Managed PostgreSQL 15 & Auth |
@@ -275,7 +275,7 @@ Drag-and-drop hiring pipeline across 6 lifecycle stages paired with a dedicated 
 | **Failover AI Provider**| [Groq](https://groq.com/) | Llama-3 70B/120B | High-throughput ultra-low-latency fallback LLM |
 | **Containerization** | [Docker](https://www.docker.com/) | Multi-Stage | Minimal lightweight Linux container runtime |
 | **Backend Hosting** | [Render](https://render.com/) | Docker Web Service | Auto-deploying cloud container host (Singapore) |
-| **Frontend Hosting** | [Vercel](https://vercel.com/) | Serverless Edge | Edge-optimized deployment with Next.js caching |
+| **Frontend Hosting** | [Netlify](https://netlify.com/) | Next.js Runtime | Continuous deployment from GitHub main branch |
 | **CI / CD Automation** | [GitHub Actions](https://github.com/features/actions) | v4 | Automated daily job crawlers & error dispatching |
 
 ---
@@ -571,15 +571,20 @@ The repository includes a production-ready [backend/Dockerfile](backend/Dockerfi
 
 ---
 
-### 2. Frontend on Vercel
-1. Log in to [Vercel.com](https://vercel.com) and click **Add New...** > **Project**.
-2. Select `Masud744/Shomvob`.
-3. Set **Root Directory** to `frontend`.
-4. Configure environment variables:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `NEXT_PUBLIC_API_URL` (Set to your live Render backend URL, e.g., `https://shomvob-backend.onrender.com/api/v1`)
-5. Deploy.
+### 2. Frontend on Netlify
+The repository contains a pre-configured [netlify.toml](netlify.toml) utilizing the official `@netlify/plugin-nextjs`:
+
+1. Log in to [Netlify.com](https://netlify.com) and click **Add new site** > **Import an existing project**.
+2. Select **GitHub** and authorize access to `Masud744/Shomvob`.
+3. Netlify automatically detects build configurations from `netlify.toml`:
+   - **Base directory:** `frontend`
+   - **Build command:** `npm run build`
+   - **Publish directory:** `.next`
+4. Add **Environment Variables** (Site configuration -> Environment variables):
+   - `NEXT_PUBLIC_SUPABASE_URL`: `https://your-project.supabase.co`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: `your-anon-key`
+   - `NEXT_PUBLIC_API_URL`: `https://shomvob-backend.onrender.com/api/v1`
+5. Click **Deploy Shomvob**.
 
 ---
 
@@ -722,7 +727,7 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 - [Google Gemini API](https://ai.google.dev/) — High-fidelity context understanding and ATS analysis
 - [Groq Cloud](https://groq.com/) — Ultra-fast Llama-3 inference failover
 - [FastAPI](https://fastapi.tiangolo.com/) — Modern asynchronous web framework
-- [Next.js](https://nextjs.org/) & [Vercel](https://vercel.com/) — High-performance React framework and edge hosting
+- [Next.js](https://nextjs.org/) & [Netlify](https://netlify.com/) — High-performance React framework and cloud web hosting
 - [Supabase](https://supabase.com/) — Managed PostgreSQL database, authentication, and security
 - [Tailwind CSS](https://tailwindcss.com/) & [Lucide React](https://lucide.dev/) — Sleek developer-first design system
 - [Render](https://render.com/) — Reliable Docker container web service hosting
@@ -730,5 +735,5 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 ---
 
 <p align="center">
-  <sub>Built with precision by <a href="https://github.com/Masud744">Shahriar Alom Masud</a> • संभव (Shomvob) © 2026</sub>
+  <sub>Built with precision by <a href="https://github.com/Masud744">Shahriar Alom Masud</a> • সম্ভব (Shomvob) © 2026</sub>
 </p>

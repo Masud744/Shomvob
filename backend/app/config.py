@@ -47,10 +47,15 @@ class Settings(BaseSettings):
         origins = [o.strip() for o in self.cors_origins.split(",") if o.strip()]
         origins.append(self.frontend_url)
         origins.append("http://localhost:3000")
-        # Add production Vercel URL if set
+        # Add production Vercel or Netlify URL if set
         vercel_url = os.getenv("VERCEL_URL")
         if vercel_url:
             origins.append(f"https://{vercel_url}")
+        netlify_url = os.getenv("NETLIFY_URL") or os.getenv("URL")
+        if netlify_url:
+            if not netlify_url.startswith("http"):
+                netlify_url = f"https://{netlify_url}"
+            origins.append(netlify_url)
         return list(set(origins))
 
 

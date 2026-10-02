@@ -85,7 +85,7 @@ jobs:
           summary_file = os.getenv('GITHUB_STEP_SUMMARY')
           if summary_file:
               with open(summary_file, 'a', encoding='utf-8') as f:
-                  f.write('## 🚀 संभव (Shomvob) — Job Sync Summary\n\n')
+                  f.write('## 🚀 সম্ভব (Shomvob) — Job Sync Summary\n\n')
                   f.write(f'**Status:** {result.get(\"status\", \"unknown\")}\n')
                   f.write(f'**Total Jobs Fetched:** {result.get(\"fetched\", 0)}\n')
                   f.write(f'**Jobs Upserted / Updated:** {result.get(\"inserted\", 0)}\n\n')
