@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — AI Client Wrapper.
+Shomvob (সম্ভব) — AI Client Wrapper.
 
 Provides high-performance, fault-tolerant dual-provider LLM orchestration
 between Groq (Ultra-low latency LPU) and Google Gemini (Multimodal & Reasoning),

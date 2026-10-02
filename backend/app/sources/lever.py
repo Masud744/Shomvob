@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Lever Job Source.
+Shomvob (সম্ভব) — Lever Job Source.
 
 Fetches job postings from public Lever job boards of target tech companies.
 """

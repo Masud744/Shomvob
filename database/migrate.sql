@@ -1,5 +1,5 @@
 -- ============================================================
--- EngineerCopilot AI — Idempotent Migration
+-- Shomvob (সম্ভব) — Idempotent Migration
 -- Run this in Supabase SQL Editor
 -- Safe to run multiple times, preserves existing data
 -- ============================================================

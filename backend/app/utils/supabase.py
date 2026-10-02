@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Supabase Client Utility.
+Shomvob (সম্ভব) — Supabase Client Utility.
 
 Provides both admin (service-role) and user-scoped Supabase clients.
 """

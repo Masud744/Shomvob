@@ -1,5 +1,5 @@
 -- ============================================================
--- EngineerCopilot AI — Complete Database Schema (v2)
+-- Shomvob (সম্ভব) — Complete Database Schema (v2)
 -- Target: Supabase PostgreSQL
 -- ============================================================
 

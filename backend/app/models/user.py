@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — User Pydantic Models.
+Shomvob (সম্ভব) — User Pydantic Models.
 
 Defines request/response schemas for user profile, skills, education,
 experience, projects, and certifications.

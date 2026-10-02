@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Authentication Dependencies.
+Shomvob (সম্ভব) — Authentication Dependencies.
 
 Provides FastAPI dependency injection for JWT verification
 using Supabase Auth tokens.

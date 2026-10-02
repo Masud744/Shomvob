@@ -22,8 +22,8 @@
     ],
     "source": "facebook_events",
     "is_featured": true,
-    "updated_at": "2026-10-01T05:12:27.449911+00:00",
-    "created_at": "2026-10-01T05:12:27.449919+00:00"
+    "updated_at": "2026-10-01T19:03:48.556203+00:00",
+    "created_at": "2026-10-01T19:03:48.556211+00:00"
   },
   {
     "id": "comp-du-datathon-2026",
@@ -48,8 +48,8 @@
     ],
     "source": "bangladesh_tech_hub",
     "is_featured": true,
-    "updated_at": "2026-10-01T05:12:27.451029+00:00",
-    "created_at": "2026-10-01T05:12:27.451037+00:00"
+    "updated_at": "2026-10-01T19:03:48.557357+00:00",
+    "created_at": "2026-10-01T19:03:48.557366+00:00"
   },
   {
     "id": "comp-iut-project-showcase-2026",
@@ -74,8 +74,8 @@
     ],
     "source": "facebook_events",
     "is_featured": true,
-    "updated_at": "2026-10-01T05:12:27.452142+00:00",
-    "created_at": "2026-10-01T05:12:27.452150+00:00"
+    "updated_at": "2026-10-01T19:03:48.558497+00:00",
+    "created_at": "2026-10-01T19:03:48.558505+00:00"
   },
   {
     "id": "comp-bracu-poster-2026",
@@ -150,8 +150,8 @@
     ],
     "source": "bangladesh_tech_hub",
     "is_featured": true,
-    "updated_at": "2026-10-01T05:12:27.456655+00:00",
-    "created_at": "2026-10-01T05:12:27.456663+00:00"
+    "updated_at": "2026-10-01T19:03:48.563320+00:00",
+    "created_at": "2026-10-01T19:03:48.563326+00:00"
   },
   {
     "id": "comp-bdapps-hackathon-2026",
@@ -176,8 +176,8 @@
     ],
     "source": "bangladesh_tech_hub",
     "is_featured": true,
-    "updated_at": "2026-10-01T05:12:27.457752+00:00",
-    "created_at": "2026-10-01T05:12:27.457759+00:00"
+    "updated_at": "2026-10-01T19:03:48.563928+00:00",
+    "created_at": "2026-10-01T19:03:48.563932+00:00"
   },
   {
     "id": "comp-nsu-techfest-showcase-2026",
@@ -279,8 +279,8 @@
     ],
     "source": "facebook_events",
     "is_featured": true,
-    "updated_at": "2026-10-01T05:12:26.765411+00:00",
-    "created_at": "2026-10-01T05:12:26.765422+00:00",
+    "updated_at": "2026-10-01T19:03:47.486022+00:00",
+    "created_at": "2026-10-01T19:03:47.486029+00:00",
     "social_proof": "300K BDT Prize \u00b7 8 Segments"
   },
   {
@@ -306,8 +306,8 @@
     ],
     "source": "facebook_events",
     "is_featured": true,
-    "updated_at": "2026-10-01T05:12:27.307301+00:00",
-    "created_at": "2026-10-01T05:12:27.307324+00:00",
+    "updated_at": "2026-10-01T19:03:48.552712+00:00",
+    "created_at": "2026-10-01T19:03:48.552728+00:00",
     "social_proof": "304 interested \u00b7 95 going on FB"
   },
   {
@@ -332,8 +332,8 @@
     ],
     "source": "facebook_events",
     "is_featured": true,
-    "updated_at": "2026-10-01T05:12:27.447559+00:00",
-    "created_at": "2026-10-01T05:12:27.447576+00:00",
+    "updated_at": "2026-10-01T19:03:48.553889+00:00",
+    "created_at": "2026-10-01T19:03:48.553911+00:00",
     "social_proof": "7K interested \u00b7 1K going on FB"
   },
   {
@@ -359,8 +359,8 @@
     ],
     "source": "facebook_events",
     "is_featured": true,
-    "updated_at": "2026-10-01T05:12:27.448782+00:00",
-    "created_at": "2026-10-01T05:12:27.448791+00:00"
+    "updated_at": "2026-10-01T19:03:48.555045+00:00",
+    "created_at": "2026-10-01T19:03:48.555053+00:00"
   },
   {
     "id": "comp-diu-robo-tech-olympiad-2026",
@@ -384,8 +384,8 @@
     ],
     "source": "facebook_events",
     "is_featured": false,
-    "updated_at": "2026-10-01T05:12:27.453320+00:00",
-    "created_at": "2026-10-01T05:12:27.453328+00:00"
+    "updated_at": "2026-10-01T19:03:48.559631+00:00",
+    "created_at": "2026-10-01T19:03:48.559638+00:00"
   },
   {
     "id": "comp-mgcsc-mindspark-expo-2026",
@@ -409,8 +409,8 @@
     ],
     "source": "facebook_events",
     "is_featured": false,
-    "updated_at": "2026-10-01T05:12:27.454433+00:00",
-    "created_at": "2026-10-01T05:12:27.454441+00:00"
+    "updated_at": "2026-10-01T19:03:48.560987+00:00",
+    "created_at": "2026-10-01T19:03:48.560997+00:00"
   },
   {
     "id": "comp-bafsd-national-it-fest-2026",
@@ -434,8 +434,8 @@
     ],
     "source": "facebook_events",
     "is_featured": false,
-    "updated_at": "2026-10-01T05:12:27.455535+00:00",
-    "created_at": "2026-10-01T05:12:27.455543+00:00"
+    "updated_at": "2026-10-01T19:03:48.562140+00:00",
+    "created_at": "2026-10-01T19:03:48.562149+00:00"
   },
   {
     "id": "devpost-30992",
@@ -447,8 +447,8 @@
     "description": "Official global online hackathon hosted on Devpost. Build applications, AI prototypes, or systems to compete for prize pool grants and industry visibility from home.",
     "eligibility": "Open globally to all developers & students over 18 (Remote submission)",
     "prize_pool": "$138,000",
-    "registration_deadline": "2026-10-24T05:12:28.664437+00:00",
-    "event_date": "2026-10-31T05:12:28.664437+00:00",
+    "registration_deadline": "2026-10-23T19:03:49.788282+00:00",
+    "event_date": "2026-10-30T19:03:49.788282+00:00",
     "registration_url": "https://amazonappdev2026.devpost.com/",
     "banner_url": "https://d112y698adiu2z.cloudfront.net/photos/production/challenge_thumbnails/005/173/047/datas/medium_square.png",
     "tags": [
@@ -459,9 +459,9 @@
     ],
     "source": "devpost_online",
     "is_featured": true,
-    "days_left": 23,
-    "updated_at": "2026-10-01T05:12:28.665044+00:00",
-    "created_at": "2026-10-01T05:12:28.665050+00:00",
+    "days_left": 22,
+    "updated_at": "2026-10-01T19:03:49.788869+00:00",
+    "created_at": "2026-10-01T19:03:49.788875+00:00",
     "social_proof": "Global Remote Submission"
   },
   {
@@ -474,8 +474,8 @@
     "description": "Official global online hackathon hosted on Devpost. Build applications, AI prototypes, or systems to compete for prize pool grants and industry visibility from home.",
     "eligibility": "Open globally to all developers & students over 18 (Remote submission)",
     "prize_pool": "$740,000",
-    "registration_deadline": "2026-10-01T05:12:28.664437+00:00",
-    "event_date": "2026-10-08T05:12:28.664437+00:00",
+    "registration_deadline": "2026-10-15T18:51:54.798345+00:00",
+    "event_date": "2026-10-22T18:51:54.798345+00:00",
     "registration_url": "https://revenuecat-shipaton-2026.devpost.com/",
     "banner_url": "https://d112y698adiu2z.cloudfront.net/photos/production/challenge_thumbnails/004/663/632/datas/medium_square.jpg",
     "tags": [
@@ -485,10 +485,10 @@
       "Submit from Home"
     ],
     "source": "devpost_online",
-    "is_featured": false,
-    "days_left": 0,
-    "updated_at": "2026-10-01T05:12:28.827911+00:00",
-    "created_at": "2026-10-01T05:12:28.827936+00:00",
+    "is_featured": true,
+    "days_left": 14,
+    "updated_at": "2026-10-01T18:51:54.800279+00:00",
+    "created_at": "2026-10-01T18:51:54.800287+00:00",
     "social_proof": "Global Remote Submission"
   },
   {
@@ -501,8 +501,8 @@
     "description": "Official global online hackathon hosted on Devpost. Build applications, AI prototypes, or systems to compete for prize pool grants and industry visibility from home.",
     "eligibility": "Open globally to all developers & students over 18 (Remote submission)",
     "prize_pool": "$50,000",
-    "registration_deadline": "2026-10-30T05:12:28.664437+00:00",
-    "event_date": "2026-11-06T05:12:28.664437+00:00",
+    "registration_deadline": "2026-10-30T19:03:49.788282+00:00",
+    "event_date": "2026-11-06T19:03:49.788282+00:00",
     "registration_url": "https://nebiusglobalaihackathon.devpost.com/",
     "banner_url": "https://d112y698adiu2z.cloudfront.net/photos/production/challenge_thumbnails/005/173/025/datas/medium_square.png",
     "tags": [
@@ -514,8 +514,8 @@
     "source": "devpost_online",
     "is_featured": true,
     "days_left": 29,
-    "updated_at": "2026-10-01T05:12:28.830596+00:00",
-    "created_at": "2026-10-01T05:12:28.830602+00:00",
+    "updated_at": "2026-10-01T19:03:49.790221+00:00",
+    "created_at": "2026-10-01T19:03:49.790230+00:00",
     "social_proof": "Global Remote Submission"
   },
   {
@@ -528,8 +528,8 @@
     "description": "Official global online hackathon hosted on Devpost. Build applications, AI prototypes, or systems to compete for prize pool grants and industry visibility from home.",
     "eligibility": "Open globally to all developers & students over 18 (Remote submission)",
     "prize_pool": "$20,250",
-    "registration_deadline": "2026-10-27T05:12:28.664437+00:00",
-    "event_date": "2026-11-03T05:12:28.664437+00:00",
+    "registration_deadline": "2026-10-27T19:03:49.788282+00:00",
+    "event_date": "2026-11-03T19:03:49.788282+00:00",
     "registration_url": "https://opencv26.devpost.com/",
     "banner_url": "https://d112y698adiu2z.cloudfront.net/photos/production/challenge_thumbnails/005/087/526/datas/medium_square.png",
     "tags": [
@@ -541,8 +541,8 @@
     "source": "devpost_online",
     "is_featured": true,
     "days_left": 26,
-    "updated_at": "2026-10-01T05:12:28.833424+00:00",
-    "created_at": "2026-10-01T05:12:28.833429+00:00",
+    "updated_at": "2026-10-01T19:03:49.797608+00:00",
+    "created_at": "2026-10-01T19:03:49.797616+00:00",
     "social_proof": "Global Remote Submission"
   },
   {
@@ -555,8 +555,8 @@
     "description": "Official global online hackathon hosted on Devpost. Build applications, AI prototypes, or systems to compete for prize pool grants and industry visibility from home.",
     "eligibility": "Open globally to all developers & students over 18 (Remote submission)",
     "prize_pool": "$2,500",
-    "registration_deadline": "2026-10-27T05:12:28.664437+00:00",
-    "event_date": "2026-11-03T05:12:28.664437+00:00",
+    "registration_deadline": "2026-10-26T19:03:49.788282+00:00",
+    "event_date": "2026-11-02T19:03:49.788282+00:00",
     "registration_url": "https://learn-ai-basics.devpost.com/",
     "banner_url": "https://d112y698adiu2z.cloudfront.net/photos/production/challenge_thumbnails/005/366/318/datas/medium_square.png",
     "tags": [
@@ -567,9 +567,9 @@
     ],
     "source": "devpost_online",
     "is_featured": true,
-    "days_left": 26,
-    "updated_at": "2026-10-01T05:12:28.980999+00:00",
-    "created_at": "2026-10-01T05:12:28.981022+00:00",
+    "days_left": 25,
+    "updated_at": "2026-10-01T19:03:49.868751+00:00",
+    "created_at": "2026-10-01T19:03:49.868766+00:00",
     "social_proof": "Global Remote Submission"
   },
   {
@@ -582,8 +582,8 @@
     "description": "Official global online hackathon hosted on Devpost. Build applications, AI prototypes, or systems to compete for prize pool grants and industry visibility from home.",
     "eligibility": "Open globally to all developers & students over 18 (Remote submission)",
     "prize_pool": "$1,000,000",
-    "registration_deadline": "2026-10-15T05:12:28.664437+00:00",
-    "event_date": "2026-10-22T05:12:28.664437+00:00",
+    "registration_deadline": "2026-10-15T19:03:49.788282+00:00",
+    "event_date": "2026-10-22T19:03:49.788282+00:00",
     "registration_url": "https://start-developer-competition-26.devpost.com/",
     "banner_url": "https://d112y698adiu2z.cloudfront.net/photos/production/challenge_thumbnails/005/374/843/datas/medium_square.png",
     "tags": [
@@ -595,8 +595,8 @@
     "source": "devpost_online",
     "is_featured": true,
     "days_left": 14,
-    "updated_at": "2026-10-01T05:12:29.233617+00:00",
-    "created_at": "2026-10-01T05:12:29.233657+00:00",
+    "updated_at": "2026-10-01T19:03:49.870836+00:00",
+    "created_at": "2026-10-01T19:03:49.870845+00:00",
     "social_proof": "Global Remote Submission"
   },
   {
@@ -609,8 +609,8 @@
     "description": "Official global online hackathon hosted on Devpost. Build applications, AI prototypes, or systems to compete for prize pool grants and industry visibility from home.",
     "eligibility": "Open globally to all developers & students over 18 (Remote submission)",
     "prize_pool": "Recognition & Swag",
-    "registration_deadline": "2026-10-01T05:12:28.664437+00:00",
-    "event_date": "2026-10-08T05:12:28.664437+00:00",
+    "registration_deadline": "2026-10-01T19:03:49.788282+00:00",
+    "event_date": "2026-10-08T19:03:49.788282+00:00",
     "registration_url": "https://gibc-v2.devpost.com/",
     "banner_url": "https://d112y698adiu2z.cloudfront.net/photos/production/challenge_thumbnails/004/835/213/datas/medium_square.png",
     "tags": [
@@ -622,8 +622,8 @@
     "source": "devpost_online",
     "is_featured": false,
     "days_left": 0,
-    "updated_at": "2026-10-01T05:12:29.246251+00:00",
-    "created_at": "2026-10-01T05:12:29.246271+00:00",
+    "updated_at": "2026-10-01T19:03:49.872876+00:00",
+    "created_at": "2026-10-01T19:03:49.872884+00:00",
     "social_proof": "Global Remote Submission"
   },
   {
@@ -636,8 +636,8 @@
     "description": "Official global online hackathon hosted on Devpost. Build applications, AI prototypes, or systems to compete for prize pool grants and industry visibility from home.",
     "eligibility": "Open globally to all developers & students over 18 (Remote submission)",
     "prize_pool": "$40,000",
-    "registration_deadline": "2026-10-29T05:12:28.664437+00:00",
-    "event_date": "2026-11-05T05:12:28.664437+00:00",
+    "registration_deadline": "2026-10-28T19:03:49.788282+00:00",
+    "event_date": "2026-11-04T19:03:49.788282+00:00",
     "registration_url": "https://aws-cds-partner.devpost.com/",
     "banner_url": "https://d112y698adiu2z.cloudfront.net/photos/production/challenge_thumbnails/005/155/384/datas/medium_square.png",
     "tags": [
@@ -648,9 +648,9 @@
     ],
     "source": "devpost_online",
     "is_featured": true,
-    "days_left": 28,
-    "updated_at": "2026-10-01T05:12:29.277274+00:00",
-    "created_at": "2026-10-01T05:12:29.277297+00:00",
+    "days_left": 27,
+    "updated_at": "2026-10-01T19:03:49.905452+00:00",
+    "created_at": "2026-10-01T19:03:49.905461+00:00",
     "social_proof": "Global Remote Submission"
   },
   {
@@ -663,8 +663,8 @@
     "description": "Official global online hackathon hosted on Devpost. Build applications, AI prototypes, or systems to compete for prize pool grants and industry visibility from home.",
     "eligibility": "Open globally to all developers & students over 18 (Remote submission)",
     "prize_pool": "\u20b9 100,000",
-    "registration_deadline": "2026-10-15T05:12:28.664437+00:00",
-    "event_date": "2026-10-22T05:12:28.664437+00:00",
+    "registration_deadline": "2026-10-14T19:03:49.788282+00:00",
+    "event_date": "2026-10-21T19:03:49.788282+00:00",
     "registration_url": "https://multimodal-ai-hackathon-2026-7.devpost.com/",
     "banner_url": "https://d112y698adiu2z.cloudfront.net/photos/production/challenge_thumbnails/005/366/176/datas/medium_square.jpg",
     "tags": [
@@ -675,9 +675,36 @@
     ],
     "source": "devpost_online",
     "is_featured": true,
-    "days_left": 14,
-    "updated_at": "2026-10-01T05:12:29.293886+00:00",
-    "created_at": "2026-10-01T05:12:29.293899+00:00",
+    "days_left": 13,
+    "updated_at": "2026-10-01T19:03:49.889018+00:00",
+    "created_at": "2026-10-01T19:03:49.889045+00:00",
     "social_proof": "Global Remote Submission"
+  },
+  {
+    "id": "devpost-30892",
+    "title": "Beginner's Paradise - FirstCommit",
+    "organizer": "Devpost & Global Tech Sponsors",
+    "event_type": "hackathon",
+    "participation_mode": "online",
+    "venue_location": "Global / Remote (Submit Online from Home)",
+    "description": "Official global online hackathon hosted on Devpost. Build applications, AI prototypes, or systems to compete for prize pool grants and industry visibility from home.",
+    "eligibility": "Open globally to all developers & students over 18 (Remote submission)",
+    "prize_pool": "$1,024",
+    "registration_deadline": "2026-10-01T19:03:49.788282+00:00",
+    "event_date": "2026-10-08T19:03:49.788282+00:00",
+    "registration_url": "https://firstcommit.devpost.com/",
+    "banner_url": "https://d112y698adiu2z.cloudfront.net/photos/production/challenge_thumbnails/005/152/414/datas/medium_square.png",
+    "tags": [
+      "Devpost",
+      "Online Hackathon",
+      "Global Remote",
+      "Submit from Home"
+    ],
+    "source": "devpost_online",
+    "social_proof": "Global Remote Submission",
+    "is_featured": false,
+    "days_left": 0,
+    "updated_at": "2026-10-01T19:03:49.911230+00:00",
+    "created_at": "2026-10-01T19:03:49.911240+00:00"
   }
 ]

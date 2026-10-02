@@ -266,7 +266,7 @@ export default function CoverLetterPage() {
       if (res?.content) {
         if (res.ai_model) setLastUsedModel(res.ai_model);
         // Parse into recipient, subject, and body
-        let rawContent = res.content.trim();
+        const rawContent = res.content.trim();
 
         // Setup clean standard headers
         setRecipient(`Hiring Manager & Engineering Team\n${company}`);

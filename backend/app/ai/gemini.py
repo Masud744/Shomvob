@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Google Gemini Provider.
+Shomvob (সম্ভব) — Google Gemini Provider.
 
 Uses the google-generativeai SDK for Gemini 1.5 Flash (free tier: 15 req/min).
 """

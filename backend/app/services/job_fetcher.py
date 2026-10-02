@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Job Fetcher & Aggregator Orchestrator.
+Shomvob (সম্ভব) — Job Fetcher & Aggregator Orchestrator.
 
 Concurrently executes all job sources, filters, classifies, and stores jobs in Supabase.
 Can be executed as a standalone script for GitHub Actions.

@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Job Sources Package.
+Shomvob (সম্ভব) — Job Sources Package.
 
 Exports all available job source adapters.
 """

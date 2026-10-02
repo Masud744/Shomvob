@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Application Configuration.
+Shomvob (সম্ভব) — Application Configuration.
 
 Loads settings from environment variables with sensible defaults.
 """
@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     pdflatex_path: str = "pdflatex"
 
     # ── App ─────────────────────────────────────────────────
-    app_name: str = "EngineerCopilot AI"
+    app_name: str = "Shomvob API"
     debug: bool = False
     environment: str = "development"
 

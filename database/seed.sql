@@ -1,5 +1,5 @@
 -- ============================================================
--- EngineerCopilot AI — Sample Seed Data
+-- Shomvob (সম্ভব) — Sample Seed Data
 -- Run AFTER schema.sql and rls_policies.sql
 -- Used for development and testing only
 -- ============================================================

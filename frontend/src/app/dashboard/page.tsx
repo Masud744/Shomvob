@@ -226,7 +226,7 @@ export default function DashboardPage() {
     <div className="h-full flex flex-col gap-3.5 w-full select-text min-h-0 overflow-hidden">
       
       {/* ── Executive Greeting Hero Header ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-border/50 shrink-0">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3.5 pb-3.5 border-b border-border/60 shrink-0">
         <div>
           <div className="flex items-center gap-2.5 flex-wrap">
             <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground flex items-center gap-2">
@@ -276,11 +276,11 @@ export default function DashboardPage() {
         
         {/* Metric 1 */}
         <Link href="/dashboard/applications" className="group">
-          <Card className="border border-border/70 bg-card hover:border-foreground/30 transition-all p-3.5 group-hover:bg-muted/30">
+          <Card className="border border-border/70 bg-card hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-xs transition-all duration-200 p-3.5 rounded-xl cursor-pointer">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Active Pipeline</span>
-              <div className="h-6 w-6 rounded-md bg-muted border border-border flex items-center justify-center">
-                <Briefcase className="h-3 w-3 text-muted-foreground" strokeWidth={1.5} />
+              <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Active Pipeline</span>
+              <div className="h-7 w-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center group-hover:bg-blue-500/15 transition-colors">
+                <Briefcase className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" strokeWidth={1.75} />
               </div>
             </div>
             <div className="mt-2 flex items-baseline justify-between">
@@ -296,11 +296,11 @@ export default function DashboardPage() {
 
         {/* Metric 2 */}
         <Link href="/dashboard/applications" className="group">
-          <Card className="border border-border/70 bg-card hover:border-foreground/30 transition-all p-3.5 group-hover:bg-muted/30">
+          <Card className="border border-border/70 bg-card hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-xs transition-all duration-200 p-3.5 rounded-xl cursor-pointer">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Interviews & Tests</span>
-              <div className="h-6 w-6 rounded-md bg-muted border border-border flex items-center justify-center">
-                <Activity className="h-3 w-3 text-muted-foreground" strokeWidth={1.5} />
+              <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Interviews & Tests</span>
+              <div className="h-7 w-7 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center group-hover:bg-amber-500/15 transition-colors">
+                <Activity className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" strokeWidth={1.75} />
               </div>
             </div>
             <div className="mt-2 flex items-baseline justify-between">
@@ -316,11 +316,11 @@ export default function DashboardPage() {
 
         {/* Metric 3 */}
         <Link href="/dashboard/profile" className="group">
-          <Card className="border border-border/70 bg-card hover:border-foreground/30 transition-all p-3.5 group-hover:bg-muted/30">
+          <Card className="border border-border/70 bg-card hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-xs transition-all duration-200 p-3.5 rounded-xl cursor-pointer">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Tailored Resumes</span>
-              <div className="h-6 w-6 rounded-md bg-muted border border-border flex items-center justify-center">
-                <FileText className="h-3 w-3 text-muted-foreground" strokeWidth={1.5} />
+              <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Tailored Resumes</span>
+              <div className="h-7 w-7 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center group-hover:bg-indigo-500/15 transition-colors">
+                <FileText className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" strokeWidth={1.75} />
               </div>
             </div>
             <div className="mt-2 flex items-baseline justify-between">
@@ -336,11 +336,11 @@ export default function DashboardPage() {
 
         {/* Metric 4 */}
         <Link href="/dashboard/profile" className="group">
-          <Card className="border border-border/70 bg-card hover:border-foreground/30 transition-all p-3.5 group-hover:bg-muted/30">
+          <Card className="border border-border/70 bg-card hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-xs transition-all duration-200 p-3.5 rounded-xl cursor-pointer">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Target ATS Index</span>
-              <div className="h-6 w-6 rounded-md bg-muted border border-border flex items-center justify-center">
-                <TrendingUp className="h-3 w-3 text-muted-foreground" strokeWidth={1.5} />
+              <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Target ATS Index</span>
+              <div className="h-7 w-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center group-hover:bg-emerald-500/15 transition-colors">
+                <TrendingUp className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" strokeWidth={1.75} />
               </div>
             </div>
             <div className="mt-2 flex items-baseline justify-between">
@@ -451,14 +451,14 @@ export default function DashboardPage() {
                   <Link
                     key={j.id}
                     href={`/dashboard/jobs?job=${j.id}`}
-                    className="block rounded-lg border border-border/50 bg-background/50 hover:bg-white/[0.03] hover:border-white/25 transition-all p-2.5 group cursor-pointer"
+                    className="block rounded-lg border border-border/60 bg-card/60 hover:bg-muted/40 hover:border-primary/40 hover:shadow-xs transition-all duration-200 p-3 group cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
                       <CompanyLogo company={cleanCompany} source={j.source} size="sm" />
 
                       <div className="min-w-0 flex-1">
                         <div className="flex items-baseline justify-between gap-2">
-                          <h3 className="text-[13px] font-bold text-foreground group-hover:text-white transition-colors truncate">
+                          <h3 className="text-[13px] font-bold text-foreground group-hover:text-primary transition-colors truncate">
                             {cleanTitle}
                           </h3>
                           <span className="shrink-0 text-[10px] text-muted-foreground font-mono">
@@ -490,7 +490,7 @@ export default function DashboardPage() {
                         <div className="mt-1.5 flex items-center justify-between gap-2">
                           <div className="flex flex-wrap items-center gap-1">
                             {j.salary_min && (
-                              <span className="rounded bg-white/10 border border-white/20 px-1.5 py-0.5 text-[10px] text-zinc-200 font-semibold font-mono">
+                              <span className="rounded-md bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-700 dark:text-emerald-300 font-semibold font-mono">
                                 {j.salary_currency === '৳' ? 'BDT ' : (j.salary_currency || '$')}
                                 {Number(j.salary_min).toLocaleString()}
                                 {j.salary_max ? `–${Number(j.salary_max).toLocaleString()}` : '+'}
@@ -500,7 +500,7 @@ export default function DashboardPage() {
                             {skills.slice(0, 3).map((skill) => (
                               <span
                                 key={skill}
-                                className="rounded border border-white/10 bg-white/[0.04] px-1.5 py-0.2 text-[10px] text-zinc-300 font-mono"
+                                className="rounded-md border border-border/80 bg-muted/60 px-2 py-0.5 text-[10px] text-foreground/80 font-mono font-medium group-hover:border-border-strong group-hover:text-foreground transition-colors"
                               >
                                 {skill}
                               </span>
@@ -512,7 +512,7 @@ export default function DashboardPage() {
                             )}
                           </div>
 
-                          <span className="shrink-0 text-[11px] text-zinc-400 group-hover:text-white font-medium opacity-0 group-hover:opacity-100 transition-all flex items-center gap-0.5">
+                          <span className="shrink-0 text-[11px] text-muted-foreground group-hover:text-primary font-medium opacity-0 group-hover:opacity-100 transition-all flex items-center gap-0.5">
                             Details <ChevronRight className="h-3 w-3" />
                           </span>
                         </div>
@@ -525,7 +525,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Right (4 cols on lg): Application Funnel & AI Copilot Hub */}
+        {/* Right (4 cols on lg): Application Funnel & AI Career Hub */}
         <div className="lg:col-span-4 flex flex-col gap-3.5 h-full min-h-0">
           
           {/* Card 1: Application Funnel */}
@@ -542,10 +542,10 @@ export default function DashboardPage() {
 
             <div className="flex-1 min-h-0 flex flex-col justify-around py-2 space-y-2">
               {[
-                { label: 'Applied', val: stats?.applied || 0, bar: 'bg-zinc-600 dark:bg-zinc-600' },
-                { label: 'Technical Assessment', val: stats?.assessment || 0, bar: 'bg-zinc-500 dark:bg-zinc-400' },
-                { label: 'Interview Rounds', val: (stats?.interview || 0) + (stats?.final_interview || 0), bar: 'bg-zinc-400 dark:bg-zinc-300' },
-                { label: 'Offers Extended', val: stats?.offer || 0, bar: 'bg-primary dark:bg-white' },
+                { label: 'Applied', val: stats?.applied || 0, bar: 'bg-blue-500' },
+                { label: 'Technical Assessment', val: stats?.assessment || 0, bar: 'bg-indigo-500' },
+                { label: 'Interview Rounds', val: (stats?.interview || 0) + (stats?.final_interview || 0), bar: 'bg-amber-500' },
+                { label: 'Offers Extended', val: stats?.offer || 0, bar: 'bg-emerald-500' },
               ].map((row) => {
                 const pct = totalInPipeline > 0 ? Math.round((row.val / totalInPipeline) * 100) : 0
                 return (

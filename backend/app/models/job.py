@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Job Pydantic Models.
+Shomvob (সম্ভব) — Job Pydantic Models.
 
 Defines request/response schemas for jobs, job categories,
 and search/filter parameters.

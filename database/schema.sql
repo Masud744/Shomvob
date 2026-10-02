@@ -1,5 +1,5 @@
 -- ============================================================
--- EngineerCopilot AI — Complete Setup for Supabase
+-- Shomvob (সম্ভব) — Complete Setup for Supabase
 -- Run this ENTIRE file in Supabase SQL Editor
 -- Safe to run multiple times (idempotent)
 -- ============================================================

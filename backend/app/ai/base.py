@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Base LLM Provider.
+Shomvob (সম্ভব) — Base LLM Provider.
 
 Abstract base class defining the interface for all LLM providers.
 """

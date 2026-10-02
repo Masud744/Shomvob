@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Groq Provider.
+Shomvob (সম্ভব) — Groq Provider.
 
 Uses the Groq API (OpenAI-compatible) for fast inference.
 Free tier: 30 req/min on selected models.

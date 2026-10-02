@@ -1,1 +1,1 @@
-"""EngineerCopilot AI — Utility modules."""
+"""Shomvob (সম্ভব) — Utility modules."""

@@ -178,7 +178,7 @@ export default function JobsPage() {
       let savedJobId: string | null = urlJobId;
       if (!savedJobId) {
         try {
-          savedJobId = localStorage.getItem('copilot_active_job_id');
+          savedJobId = localStorage.getItem('shomvob_active_job_id');
         } catch {}
       }
       if (savedJobId) {
@@ -201,7 +201,7 @@ export default function JobsPage() {
       url.searchParams.set('job', id);
       window.history.replaceState({}, '', url.toString());
       try {
-        localStorage.setItem('copilot_active_job_id', id);
+        localStorage.setItem('shomvob_active_job_id', id);
       } catch {}
     }
   };

@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Application & Resume Pydantic Models.
+Shomvob (সম্ভব) — Application & Resume Pydantic Models.
 
 Defines schemas for application tracking, resume generation,
 and cover letter generation.

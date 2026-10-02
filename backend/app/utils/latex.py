@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Resume PDF Generation Utility.
+Shomvob (সম্ভব) — Resume PDF Generation Utility.
 
 Delegates to resume_pdf.py (FPDF2-based) for actual PDF generation.
 Kept for backward compatibility with imports.

@@ -1,5 +1,5 @@
 -- ============================================================
--- EngineerCopilot AI — Competitions & Tech Events Schema
+-- Shomvob (সম্ভব) — Competitions & Tech Events Schema
 -- Run this in Supabase SQL Editor
 -- ============================================================
 

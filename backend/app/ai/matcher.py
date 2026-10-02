@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — AI Job Matching Engine.
+Shomvob (সম্ভব) — AI Job Matching Engine.
 
 Uses LLM to evaluate a candidate's profile against a Job Description.
 """

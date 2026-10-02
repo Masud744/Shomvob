@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Main FastAPI Application.
+Shomvob (সম্ভব) — Main FastAPI Application.
 
 Entrypoint for the API server, configuring middleware, routers, and exception handlers.
 """
@@ -65,7 +65,7 @@ async def _run_scheduled_job_sync():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Lifespan context manager for application startup and shutdown events."""
-    logger.info("Starting up EngineerCopilot AI API...")
+    logger.info("Starting up Shomvob API...")
     try:
         from app.services.competition_scraper import sync_competitions
         asyncio.create_task(asyncio.to_thread(sync_competitions))
@@ -81,7 +81,7 @@ async def lifespan(app: FastAPI):
             await task
         except asyncio.CancelledError:
             pass
-    logger.info("Shutting down EngineerCopilot AI API...")
+    logger.info("Shutting down Shomvob API...")
 
 
 # Initialize settings
@@ -96,10 +96,13 @@ app = FastAPI(
 )
 
 # CORS middleware configuration
+cors_origins = settings.allowed_origins
+allow_all = "*" in cors_origins
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.allowed_origins,
-    allow_credentials=True, # Note: if allowed_origins contains "*", this will fail in production
+    allow_origins=["*"] if allow_all else cors_origins,
+    allow_credentials=not allow_all,
     allow_methods=["*"],
     allow_headers=["*"],
 )

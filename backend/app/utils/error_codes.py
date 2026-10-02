@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Structured Error Codes.
+Shomvob (সম্ভব) — Structured Error Codes.
 
 Centralized error code registry for consistent API responses.
 """

@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Core Services Package.
+Shomvob (সম্ভব) — Core Services Package.
 """
 
 from __future__ import annotations

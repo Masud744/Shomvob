@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Job Scraper Service.
+Shomvob (সম্ভব) — Job Scraper Service.
 
 Fetches engineering jobs from multiple public sources:
   1. LinkedIn (public guest API)
@@ -296,7 +296,7 @@ async def fetch_remoteok_jobs() -> list[dict]:
     jobs = []
     try:
         async with httpx.AsyncClient(timeout=15) as client:
-            response = await client.get(url, headers={"User-Agent": "EngineerCopilotAI/1.0"})
+            response = await client.get(url, headers={"User-Agent": "Shomvob/1.0"})
             response.raise_for_status()
             data = response.json()
 
@@ -669,7 +669,7 @@ async def fetch_jobicy_jobs() -> list[dict]:
     """Fetch global remote engineering jobs from Jobicy public API."""
     jobs = []
     url = "https://jobicy.com/api/v2/remote-jobs?count=50&industry=engineering"
-    headers = {"User-Agent": "EngineerCopilotAI/1.0"}
+    headers = {"User-Agent": "Shomvob/1.0"}
     try:
         async with httpx.AsyncClient(timeout=15, follow_redirects=True, headers=headers) as client:
             resp = await client.get(url)
@@ -726,7 +726,7 @@ async def fetch_wwr_jobs() -> list[dict]:
         "https://weworkremotely.com/categories/remote-devops-sysadmin-jobs.rss",
         "https://weworkremotely.com/categories/remote-product-jobs.rss",
     ]
-    headers = {"User-Agent": "EngineerCopilotAI/1.0"}
+    headers = {"User-Agent": "Shomvob/1.0"}
 
     async with httpx.AsyncClient(timeout=15, follow_redirects=True, headers=headers) as client:
         for feed_url in urls:

@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Job Classification Service.
+Shomvob (সম্ভব) — Job Classification Service.
 
 Uses keyword-based rules to classify job postings into 15 specific categories.
 """

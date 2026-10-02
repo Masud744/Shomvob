@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — AI Resume Parsing Service.
+Shomvob (সম্ভব) — AI Resume Parsing Service.
 
 Extracts text from PDF/DOCX and uses the LLM Abstraction Layer
 to parse it into highly structured JSON data.

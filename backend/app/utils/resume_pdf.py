@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — ATS Resume PDF Generator.
+Shomvob (সম্ভব) — ATS Resume PDF Generator.
 
 Pure-Python PDF generation using fpdf2.
 Zero external dependencies beyond fpdf2.

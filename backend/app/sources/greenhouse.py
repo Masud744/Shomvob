@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Greenhouse Job Source.
+Shomvob (সম্ভব) — Greenhouse Job Source.
 
 Fetches job postings from public Greenhouse job boards of target tech companies.
 """

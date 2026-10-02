@@ -47,7 +47,7 @@ export default function LandingPage() {
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2 max-w-3xl">
                 <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-                  Your AI Career Co-pilot for{' '}
+                  সম্ভব — AI Career Platform for{' '}
                   <span className="text-white underline decoration-white/30 decoration-2 underline-offset-8">
                     Engineering
                   </span>

@@ -1,5 +1,5 @@
 /**
- * EngineerCopilot AI — Centralized Job Taxonomy & Metadata Normalization.
+ * সম্ভব (Shomvob) — Centralized Job Taxonomy & Metadata Normalization.
  * 
  * Provides unified, production-grade styling, label mapping, and skill
  * sanitation for job cards, details pages, and search filters.

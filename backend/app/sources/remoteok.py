@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — RemoteOK Job Source.
+Shomvob (সম্ভব) — RemoteOK Job Source.
 
 Fetches remote jobs from the official RemoteOK API.
 """

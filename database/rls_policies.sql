@@ -1,5 +1,5 @@
 -- ============================================================
--- EngineerCopilot AI — Row Level Security Policies
+-- Shomvob (সম্ভব) — Row Level Security Policies
 -- Run AFTER schema.sql
 -- Now idempotent: safe to re-run
 -- ============================================================

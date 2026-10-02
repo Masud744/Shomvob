@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — AI Provider Manager.
+Shomvob (সম্ভব) — AI Provider Manager.
 
 Factory that initializes providers based on available API keys
 and provides automatic fallback between providers.

@@ -1,5 +1,5 @@
 """
-EngineerCopilot AI — Job Source Base Class.
+Shomvob (সম্ভব) — Job Source Base Class.
 
 Defines the abstract interface for all legal, API-based job source adapters.
 """
